@@ -56,19 +56,19 @@
         <div class="menu-logo">
             <div class="navbar-brand">
                 <span class="navbar-logo">
-                    <a href="/">
+                    <a href="/msda-visualisation">
                          <img src="assets/images/logo-de-luniversit-de-this-284x287.png" alt="Mobirise" title="" media-simple="true">
                     </a>
                 </span>
                 <span class="navbar-caption-wrap">
-                    <a class="navbar-caption display-4 text-primary" href="/">                        MSDA</a>
+                    <a class="navbar-caption display-4 text-primary" href="/msda-visualisation">                        MSDA</a>
                 </span>
             </div>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav nav-dropdown display-4 nav-right" data-app-modern-menu="true">
                 <li class="nav-item dropdown open">
-                    <a class="nav-link link dropdown-toggle text-primary" href="https://mobirise.com" data-toggle="dropdown-submenu" aria-expanded="true"><span class="mbri-growing-chart mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Diagrammes</a><div class="dropdown-menu"><div class="dropdown"><a class="dropdown-item dropdown-toggle text-primary" href="#" data-toggle="dropdown-submenu" aria-expanded="false">Barres</a><div class="dropdown-menu dropdown-submenu"><a class="dropdown-item text-primary" href="general-bars-charts.html">Vue globale</a><a class="dropdown-item text-primary" href="categorisation-bars-charts.html">Catégorisation</a><a class="dropdown-item text-primary" href="final-position.html">Position finale</a></div></div><div class="dropdown"><a class="dropdown-item dropdown-toggle text-primary" href="#" data-toggle="dropdown-submenu" aria-expanded="false">Radars</a><div class="dropdown-menu dropdown-submenu"><a class="dropdown-item text-primary" href="general-radar-charts.html">Vue globale</a><a class="dropdown-item text-primary" href="categorisation-radar-charts.html">Vue par secteur</a></div></div></div>
+                    <a class="nav-link link dropdown-toggle text-primary"  data-toggle="dropdown-submenu" aria-expanded="true"><span class="mbri-growing-chart mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Diagrammes</a><div class="dropdown-menu"><div class="dropdown"><a class="dropdown-item dropdown-toggle text-primary" href="#" data-toggle="dropdown-submenu" aria-expanded="false">Barres</a><div class="dropdown-menu dropdown-submenu"><a class="dropdown-item text-primary" href="general-bars-charts.html">Vue globale</a><a class="dropdown-item text-primary" href="categorisation-bars-charts.html">Catégorisation</a><a class="dropdown-item text-primary" href="final-position.html">Position finale</a></div></div><div class="dropdown"><a class="dropdown-item dropdown-toggle text-primary" href="#" data-toggle="dropdown-submenu" aria-expanded="false">Radars</a><div class="dropdown-menu dropdown-submenu"><a class="dropdown-item text-primary" href="general-radar-charts.html">Vue globale</a><a class="dropdown-item text-primary" href="categorisation-radar-charts.html">Vue par secteur</a></div></div></div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link text-primary" href="https://github.com/louisisaacdiouf/Visualisation-donnees-CEDEAO-final-version" target="_blank"><span class="mbri-github mbr-iconfont mbr-iconfont-btn"></span>Github</a>
@@ -141,21 +141,21 @@
     //Call function to draw the Radar chart
     function visualisation(annee){
       Promise.all([
-          d3.csv("/donnees/donnees_benin.csv"),
-          d3.csv("/donnees/donnees_burkina.csv"),
-          d3.csv("/donnees/donnees_cabo_verde.csv"),
-          d3.csv("/donnees/donnees_cote_divoire.csv"),
-          d3.csv("/donnees/donnees_gambie.csv"),
-          d3.csv("/donnees/donnees_ghana.csv"),
-          d3.csv("/donnees/donnees_guinee.csv"),
-          d3.csv("/donnees/donnees_guinee_bissau.csv"),
-          d3.csv("/donnees/donnees_liberia.csv"),
-          d3.csv("/donnees/donnees_mali.csv"),
-          d3.csv("/donnees/donnees_niger.csv"),
-          d3.csv("/donnees/donnees_nigeria.csv"),
-          d3.csv("/donnees/donnees_senegal.csv"),
-          d3.csv("/donnees/donnees_sierra_leone.csv"),
-          d3.csv("/donnees/donnees_togo.csv"),
+          d3.csv("donnees/donnees_benin.csv"),
+          d3.csv("donnees/donnees_burkina.csv"),
+          d3.csv("donnees/donnees_cabo_verde.csv"),
+          d3.csv("donnees/donnees_cote_divoire.csv"),
+          d3.csv("donnees/donnees_gambie.csv"),
+          d3.csv("donnees/donnees_ghana.csv"),
+          d3.csv("donnees/donnees_guinee.csv"),
+          d3.csv("donnees/donnees_guinee_bissau.csv"),
+          d3.csv("donnees/donnees_liberia.csv"),
+          d3.csv("donnees/donnees_mali.csv"),
+          d3.csv("donnees/donnees_niger.csv"),
+          d3.csv("donnees/donnees_nigeria.csv"),
+          d3.csv("donnees/donnees_senegal.csv"),
+          d3.csv("donnees/donnees_sierra_leone.csv"),
+          d3.csv("donnees/donnees_togo.csv"),
         ])
         .then(files =>{
           var donnees_benin       = files[0];

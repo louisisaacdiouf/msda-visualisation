@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Site made with Mobirise Website Builder v4.0.9, https://mobirise.com -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.0.9, mobirise.com">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="assets/images/logo-de-luniversit-de-this-284x287.png" type="image/x-icon">
+  <meta name="description" content="Données brutes représentées sans uniformisation.">
+  <title>Diagrammes en barres - Données brutes</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i">
+  <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
+  <link rel="stylesheet" href="assets/tether/tether.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/dropdown/css/style.css">
+  <link rel="stylesheet" href="assets/theme/css/style.css">
+  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+  <style type="text/css">
+  .axis {
+      font: 10px sans-serif;
+    }
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #D4D8DA;
+      stroke-width: 2px;
+    }
+    .graphe,#field {
+      position: relative;
+      display: inline-block;
+    }
+    div.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: auto;          
+    height: auto;         
+    padding: 2px;       
+    font: 12px sans-serif; 
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;
+  }
+    </style>
+    
+  
+</head>
+<body>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<section class="menu cid-rXleubWmmO" id="menu1-8" data-rv-view="171">
+    
+    
+
+
+    <nav class="navbar navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm bg-color transparent">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+        <div class="menu-logo">
+            <div class="navbar-brand">
+                <span class="navbar-logo">
+                    <a href="/msda-visualisation">
+                         <img src="assets/images/logo-de-luniversit-de-this-284x287.png" alt="Mobirise" title="" media-simple="true">
+                    </a>
+                </span>
+                <span class="navbar-caption-wrap">
+                    <a class="navbar-caption display-4 text-primary" href="/msda-visualisation">                        MSDA</a>
+                </span>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown display-4 nav-right" data-app-modern-menu="true">
+                <li class="nav-item dropdown open">
+                    <a class="nav-link link dropdown-toggle text-primary"  data-toggle="dropdown-submenu" aria-expanded="true"><span class="mbri-growing-chart mbr-iconfont mbr-iconfont-btn"></span>&nbsp;Diagrammes</a><div class="dropdown-menu"><div class="dropdown"><a class="dropdown-item dropdown-toggle text-primary" href="#" data-toggle="dropdown-submenu" aria-expanded="false">Barres</a><div class="dropdown-menu dropdown-submenu"><a class="dropdown-item text-primary" href="bars-charts-donnees-brutes.html">Données brutes</a><a class="dropdown-item text-primary" href="general-bars-charts.html">Uniformisation</a><a class="dropdown-item text-primary" href="categorisation-bars-charts.html">Catégorisation</a><a class="dropdown-item text-primary" href="final-position.html">Position finale</a></div></div><div class="dropdown"><a class="dropdown-item dropdown-toggle text-primary" href="#" data-toggle="dropdown-submenu" aria-expanded="false">Radars</a><div class="dropdown-menu dropdown-submenu"><a class="dropdown-item text-primary" href="general-radar-charts.html">Vue globale</a><a class="dropdown-item text-primary" href="categorisation-radar-charts.html">Vue par secteur</a></div></div></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link text-primary" href="https://github.com/louisisaacdiouf/Visualisation-donnees-CEDEAO-final-version" target="_blank"><span class="mbri-github mbr-iconfont mbr-iconfont-btn"></span>Github</a>
+                </li>
+            </ul>
+            
+        </div>
+    </nav>
+</section>
+
+<section class="cid-rXlyUuoujv" id="image1-a" data-rv-view="173" style="padding-top: 120px;padding-right: 10px;padding-left: 10px;">
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12 col-lg-10">
+          <h1 class="text-left">Données brutes</h1>
+        </div>
+        <a class="btn btn-md btn-primary-outline btn-primary" href="/msda-visualisation/"><span class="mbri-left mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span>Retour</a>
+        <a class="btn btn-md btn-primary" href="/msda-visualisation/general-bars-charts.html">Uniformisation&nbsp;&nbsp;<span class="mbri-right mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span></a>
+      </div> 
+
+      <br>  
+      <div id="generalisation" style="width: auto;"></div>
+    </div>
+</section>
+
+<section class="cid-rXlyNE4hsZ mbr-reveal" id="footer6-9" data-rv-view="175" style="z-index: -9999999">
+
+    
+
+    
+
+    <div class="container">
+        <div class="media-container-row align-center mbr-white">
+            <div class="col-12">
+                <p class="mbr-text mb-0 mbr-fonts-style display-7">
+                    © MSDA 2020 - All Rights Reserved
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="script/datas.js"></script>
+    <script src="script/draw.js"></script>
+    <script>
+      var generalisation = d3.select('#generalisation');
+      draw(data,2005,generalisation);
+      draw(data,2010,generalisation);
+      draw(data,2019,generalisation);
+    </script>
+
+
+  <script src="assets/web/assets/jquery/jquery.min.js"></script>
+  <script src="assets/tether/tether.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/smooth-scroll/smooth-scroll.js"></script>
+  <script src="assets/dropdown/js/script.min.js"></script>
+  <script src="assets/touch-swipe/jquery.touch-swipe.min.js"></script>
+  <script src="assets/theme/js/script.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("svg").css("background","white");
+      $("#generalisation").css("background","white");
+    });
+  </script>
+  <div id=scrollToTop class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbri-arrow-down mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
+</body>
+</html>

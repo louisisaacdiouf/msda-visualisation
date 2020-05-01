@@ -7,8 +7,8 @@
   <meta name="generator" content="Mobirise v4.0.9, mobirise.com">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="assets/images/logo-de-luniversit-de-this-284x287.png" type="image/x-icon">
-  <meta name="description" content="Regroupement des données par secteur, représentation avec des diagrammes en barres">
-  <title>Diagrammes en barres - Catégorisation</title>
+  <meta name="description" content="Position économique des pays dans l'espace CEDEAO">
+  <title>Diagrammes en barres - Position économique</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i">
   <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
   <link rel="stylesheet" href="assets/tether/tether.min.css">
@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="assets/theme/css/style.css">
   <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
   <style type="text/css">
-  .axis {
+    .axis {
       font: 10px sans-serif;
     }
     .axis path,
@@ -39,9 +39,9 @@
     font: 12px sans-serif; 
     border: 0px;    
     border-radius: 8px;     
-    pointer-events: none;
-  }
-    </style>
+    pointer-events: none;     
+}
+</style>
     
   
 </head>
@@ -92,18 +92,18 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-8 col-sm-12 col-xs-12 col-lg-10">
-          <h1 class="text-left">Catégorisation des données</h1>
+          <h1 class="text-left">Positions économiques</h1>
         </div>
-        <a class="btn btn-md btn-primary-outline btn-primary" href="/msda-visualisation/general-bars-charts.html"><span class="mbri-left mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span>Vue Globale</a>
-        <a class="btn btn-md btn-primary" href="/msda-visualisation/final-position.html">Position économique&nbsp;&nbsp;<span class="mbri-right mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span></a>
+        <a class="btn btn-md btn-primary-outline btn-primary" href="/msda-visualisation/categorisation-bars-charts.html"><span class="mbri-left mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span>Catégorisation</a>
+        <a class="btn btn-md btn-primary" href="/msda-visualisation/#tabs3-4">Accueil&nbsp;&nbsp;<span class="mbri-right mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span></a>
       </div> 
 
       <br>  
-      <div id="generalisation" style="width: auto;"></div>
+      <div id="generalisation"></div>
     </div>
 </section>
 
-<section class="cid-rXlyNE4hsZ mbr-reveal" id="footer6-9" data-rv-view="175" style="z-index: -9999999">
+<section class="cid-rXlyNE4hsZ mbr-reveal" id="footer6-9" data-rv-view="175">
 
     
 
@@ -120,7 +120,7 @@
     </div>
 </section>
 <script src="script/datas.js"></script>
-    <script src="script/draw.js"></script>
+    <script src="script/draw2.js"></script>
     <script>
     var annee = 2005;
     visualisation(annee,data);
@@ -195,6 +195,7 @@
           var part_3 = [donnees_guinee,donnees_guinee_bissau,donnees_liberia];
           var part_4 = [donnees_mali,donnees_niger,donnees_nigeria];
           var part_5 = [donnees_senegal,donnees_sierra_leone,donnees_togo];
+          console.log(part_1);
 
           function all_parts_max(modalite,partie1,partie2,partie3,partie4,partie5){
             var lm1 = list_max(modalite,partie1);
@@ -307,11 +308,6 @@
                   chart_datas[y][i].area = word;
                   chart_datas[y][i].value = ((files[y][i]["valeur_"+annee]*100)/M);
                   
-
-                  // if(files[y][i].Indicateur == "balance_paiements") {
-                  //   console.log(chart_datas[y][i].value);
-                  // }
-                  
                 }
               }
               chart_datas[y] = chart_datas[y].filter(el => {
@@ -341,8 +337,6 @@
                 
                 if(typeof chart_datas[y] !== "undefined"){
                   M = list_max(donnees[y].Indicateur,donnees);
-                  // console.log(T);
-                  // console.log(M);
 
                   chart_datas[y].Indicateur = donnees[y].Indicateur;
                   chart_datas[y].valeur_2005 = ((donnees[y]["valeur_2005"]*100)/M);
@@ -350,9 +344,6 @@
                   chart_datas[y].valeur_2019 = ((donnees[y]["valeur_2019"]*100)/M);
                   
 
-                  // if(donnees[y][i].Indicateur == "balance_paiements") {
-                  //   console.log(chart_datas[y][i].value);
-                  // }
                   
                 }
               
@@ -373,14 +364,22 @@
             return total/(this.length);
           }
 
+          function moyenne_tableau(tab){
+            var total = 0;
+            for(var i = 0; i < tab.length; i++) {
+                total += tab[i];
+            }
+            return (total / tab.length);
+          }
+
            ////////////////////////////////////////////
           /////////// Initiate categorisation ////////
          ////////////////////////////////////////////
 
           function categorisation(d){
             var data = data_set_all(d);
-            // console.log(data_set_all(data));
-            // console.log(d);
+            
+
             ////////-- Catégorie : Niveau de vie --//////////
             var PIB = data.find(o =>{
               return o.Indicateur === "PIB";
@@ -540,12 +539,35 @@
             return [a,b,c,d,e,f,g];
           }
 
-          // console.log(data_set_all(donnees_senegal));
-          // console.log(categorisation(donnees_senegal));
-
 
           
-            // console.log(Math.abs(-100));
+          ////////////////////////////////////////////////////////////////////
+         ////////////// NOTE FINALE /////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////
+
+        var note_finale = function(donnees){
+            var chart_datas = [];
+            var data = donnees;
+
+            chart_datas = Array.from({length:donnees.length}, _ => ({Indicateur:"_",valeur_2005:0,valeur_2010:0,valeur_2019:0}));
+
+            for (var y = 0; y < pays.length; y++) {
+              // pays[y]
+                            
+              
+                chart_datas[y].Indicateur = "Niveau économique "+pays[y];
+                chart_datas[y].valeur_2005 = moyenne_tableau(donnees[y].values.map(function(d) { return d.valeur_2005; }));
+                chart_datas[y].valeur_2010 = moyenne_tableau(donnees[y].values.map(function(d) { return d.valeur_2010; }));
+                chart_datas[y].valeur_2019 = moyenne_tableau(donnees[y].values.map(function(d) { return d.valeur_2019; }));
+                
+              
+              data[y].values = [chart_datas[y]];
+            }
+            chart_datas = chart_datas.filter(el => {
+              return (el.value !== 0);
+            });
+            return data;
+          }
           
 
           ///////////////////////////////////////////////////////////////////
@@ -573,17 +595,74 @@
         // console.log(data_set_all(donnees_json[0].values));
         // var uniformisation = data_set_all(donnees_senegal);
 
-        for (var i = 0; i < donnees_json.length; i++) {
-          var content = data_set_all(donnees_json[i].values);
-          donnees_json[i].values = categorisation(content);
+        var uniform_2005 = data_set(2005, files[0]);
+        var uniform_2010 = data_set(2010, files[0]);
+        var uniform_2019 = data_set(2019, files[0]);
+
+        function extraction_variable(variable,income){
+          var dd = [];
+
+          for (var i = 0; i < pays.length; i++) {
+            var aa = income[i].find(function(e){ return e.area == variable; });
+            dd[i] = [];
+            dd[i]["num_pays"] = i;
+            dd[i]["points"] = [];
+
+            if (typeof aa != "undefined") {
+              dd[i]["value"] = aa.value;
+            }else{
+              dd[i]["value"] = 0;
+            }
+
+          }
+          return dd;
+        } 
+
+        function sorted_variables(income){
+          var new_datas = [];
+          for (var i = 0; i < files[0].length; i++) {
+            new_datas[files[0][i].Indicateur] = extraction_variable(files[0][i].Indicateur,income);
+            
+            new_datas[files[0][i].Indicateur] = new_datas[files[0][i].Indicateur].sort(function(a,b){ return b.value - a.value; });
+            var points = 15;
+            for (var j = 0; j < new_datas[files[0][i].Indicateur].length; j++) {
+              if (j>0 && new_datas[files[0][i].Indicateur][j].value < new_datas[files[0][i].Indicateur][j-1].value) {
+                points--;
+              }
+              new_datas[files[0][i].Indicateur][j].points.push(points);
+            }
+          }
+          return new_datas;
         }
 
-        // console.log(donnees_json);
+        
+        var final_datas_2005 = sorted_variables(uniform_2005);
+        var final_datas_2010 = sorted_variables(uniform_2010);
+        var final_datas_2019 = sorted_variables(uniform_2019);
+
+        var json_final = [];
+        function final_extraction(annee){
+          json_f = [];
+          for (var j = 0; j < pays.length; j++) {
+            json_f[j] = [];
+            json_f[j].categorie = pays[j];
+            json_f[j].values = [];
+            json_f[j].values.Indicateur = "";
+            json_f[j].values["valeur_"+annee] = 0;
+            for (var k = 0; k < files[j].length; k++) {
+              json_f[j].values.Indicateur = "Nombre de points";
+              json_f[j].values["valeur_"+annee] += final_datas_2005[files[0][k].Indicateur].find(function(e){ return e.num_pays == j; }).points[0];
+            }
+          }
+          return json_f;
+        }
+        json_final["2005"] = final_extraction(2005);
+        json_final["2010"] = final_extraction(2010);
+        json_final["2019"] = final_extraction(2019);
 
         var generalisation = d3.select('#generalisation');
-        draw(donnees_json,2005,generalisation);
-        draw(donnees_json,2010,generalisation);
-        draw(donnees_json,2019,generalisation);
+        draw(json_final["2005"],2005,generalisation);
+        console.log(json_final["2005"]);
 
         
     });

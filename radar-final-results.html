@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
   <style type="text/css">
   .axis {
-      font: 15px sans-serif;
+      font: 28px sans-serif;
     }
     .axis path,
     .axis line {
@@ -26,9 +26,19 @@
       stroke: #D4D8DA;
       stroke-width: 2px;
     }
-    .graphe,#field {
+    .graphe,#field1,#field2,#field3 {
       position: relative;
       display: inline-block;
+    }
+    div.tooltip { 
+        position: absolute;     
+        text-align: center;     
+        width: auto;          
+        height: auto;         
+        padding: 2px;       
+        font: 12px sans-serif;
+        border-radius: 8px;     
+        pointer-events: none;     
     }
     </style>
     
@@ -36,7 +46,6 @@
 </head>
 <body>
 <script src="script/d3.v5.min.js"></script>
-    <script src="script/RadarChart.js"></script>
     <script src="script/jquery.min.js"></script>
     <script src="script/bootstrap.min.js"></script>
 <section class="menu cid-rXleubWmmO" id="menu1-8" data-rv-view="171">
@@ -86,19 +95,21 @@
         <div class="col-md-8 col-sm-12 col-xs-12 col-lg-10">
           <h2 class="text-left">Visualisation de l'économie dans l'espace CEDEAO</h2>
         </div>
-        <div class="col-md-4 col-sm-12 col-xs-12 col-lg-2">
-          <select name="choix_annee" class="form-control px-3 display-7" id="choix_annee">
-            <option value="2005" selected>2005</option>
-            <option value="2010">2010</option>
-            <option value="2019">2019</option>
-          </select>
-        </div>
-        <a class="btn btn-md btn-primary-outline btn-primary" href="/msda-visualisation/#tabs3-4"><span class="mbri-left mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span>Retour</a>
-        <a class="btn btn-md btn-primary" href="/msda-visualisation/categorisation-radar-charts.html">Catégorisation&nbsp;&nbsp;<span class="mbri-right mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span></a>
+        <a class="btn btn-md btn-primary-outline btn-primary" href="/msda-visualisation/categorisation-radar-charts.html"><span class="mbri-left mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span>Catégorisation&nbsp;&nbsp;</a>
+        <a class="btn btn-md btn-primary" href="/msda-visualisation/#tabs3-4"><span class="mbri-right mbr-iconfont mbr-iconfont-btn" style="font-size: 15px;"></span>Accueil</a>
       </div> 
 
       <br>  
-      <div class="row" id="field">
+      <div class="row" id="field1">
+        <h2>Classement de l'année 2019</h2>
+        
+      </div><br>
+      <div class="row" id="field2">
+        <h2>Classement de l'année 2010</h2>
+        
+      </div><br>
+      <div class="row" id="field3">
+        <h2>Classement de l'année 2005</h2>
         
       </div>
     </div>
@@ -120,21 +131,20 @@
         </div>
     </div>
 </section>
+<script src="script/draw3.js"></script>
+<script>
+
+
+
+
+
+
+</script>
 <script>
     var annee = 2005;
     visualisation(annee);
     
-    var width = 330,
-        height = 330;
-
-    // Config for the Radar chart
-    var config = {
-        w: width,
-        h: height,
-        maxValue: 100,
-        levels: 5,
-        ExtraWidthX: 270
-    }
+    
 
     //Call function to draw the Radar chart
     function visualisation(annee){
@@ -190,6 +200,7 @@
           var part_3 = [...donnees_guinee,...donnees_guinee_bissau,...donnees_liberia];
           var part_4 = [...donnees_mali,...donnees_niger,...donnees_nigeria];
           var part_5 = [...donnees_senegal,...donnees_sierra_leone,...donnees_togo];
+          
 
           function all_parts_max(modalite,partie1,partie2,partie3,partie4,partie5){
             var lm1 = list_max(modalite,partie1);
@@ -201,64 +212,8 @@
             return Math.max(lm1,lm2,lm3,lm4,lm5);
           }
 
-          function legende(element, LegendOptions,config){
-            ////////////////////////////////////////////
-          /////////// Initiate legend ////////////////
-          ////////////////////////////////////////////
-
-          var w = config.w,
-          h = config.h;
-
-        var colorscale = d3.scaleOrdinal(d3.schemeCategory10);
-
-          var svg = d3.select(element)
-            .selectAll('svg')
-            .append('svg')
-            .attr("width", w+800)
-            .attr("height", h);
-
-          //Create the title for the legend
-          var text = svg.append("text")
-            .attr("class", "title")
-            .attr('transform', 'translate(90,0)') 
-            .attr("x", w - 105)
-            .attr("y", 10)
-            .attr("font-size", "11px")
-            .attr("style", "border:1px solid black;")
-            .attr("font-weight", "bold")
-            .attr("fill", "#404040")
-            .text("Rapport de chaque valeur avec le maximum de la modalité");
-              
-          //Initiate Legend 
-          var legend = svg.append("g")
-            .attr("class", "legend")
-            .attr("height", 100)
-            .attr("width", 150)
-            .attr('transform', 'translate(270,20)') 
-            ;
-            //Create colour squares
-            legend.selectAll('rect')
-              .data(LegendOptions)
-              .enter()
-              .append("rect")
-              .attr("x", w - 95)
-              .attr("y", function(d, i){ return i * 20;})
-              .attr("width", 10)
-              .attr("height", 10)
-              .style("fill", function(d, i){ return colorscale(i);})
-              ;
-            //Create text next to squares
-            legend.selectAll('text')
-              .data(LegendOptions)
-              .enter()
-              .append("text")
-              .attr("x", w - 82)
-              .attr("y", function(d, i){ return i * 20 + 9;})
-              .attr("font-size", "11px")
-              .attr("fill", "#737373")
-              .text(function(d) { return d; })
-              ;
-          }
+          // X axis
+          
 
           
           var max_PIB = all_parts_max("PIB",part_1,part_2,part_3,part_4,part_5);
@@ -347,16 +302,16 @@
                   // console.log(M);
 
                   word = files[y][i].Indicateur;
-                  word = word.replace(/_/g, " ");
-                  word = word.replace(/taux/g, "%");
-                  word = word.replace(/pourcentage/g, "%");
-                  word = word.replace(/population/g, "Pop.");
-                  word = word.replace(/hommes/g, "♂");
-                  word = word.replace(/femmes/g, "♀");
-                  word = word.replace(/chomage/g, "chôm.");
-                  word = word.replace(/indice/g, "ind.");
-                  word = word.replace(/production/g, "prod.");
-                  word = word.replace(/commerce international/g, "Com. Inter.");
+                  // word = word.replace(/_/g, " ");
+                  // word = word.replace(/taux/g, "%");
+                  // word = word.replace(/pourcentage/g, "%");
+                  // word = word.replace(/population/g, "Pop.");
+                  // word = word.replace(/hommes/g, "♂");
+                  // word = word.replace(/femmes/g, "♀");
+                  // word = word.replace(/chomage/g, "chôm.");
+                  // word = word.replace(/indice/g, "ind.");
+                  // word = word.replace(/production/g, "prod.");
+                  // word = word.replace(/commerce international/g, "Com. Inter.");
                   chart_datas[y][i].area = word;
                   chart_datas[y][i].value = ((files[y][i]["valeur_"+annee]*100)/M);
                   
@@ -371,46 +326,90 @@
           }
           
             // console.log(Math.abs(-100));
+
+
+
+            var uniform_2005 = data_set(2005, files[0]);
+        var uniform_2010 = data_set(2010, files[0]);
+        var uniform_2019 = data_set(2019, files[0]);
+
+        function extraction_variable(variable,income){
+          var dd = [];
+
+          for (var i = 0; i < pays.length; i++) {
+            var aa = income[i].find(function(e){ return e.area == variable; });
+            dd[i] = [];
+            dd[i]["num_pays"] = i;
+            dd[i]["points"] = [];
+
+            if (typeof aa != "undefined") {
+              dd[i]["value"] = aa.value;
+            }else{
+              dd[i]["value"] = 0;
+            }
+
+          }
+          return dd;
+        } 
+
+        function sorted_variables(income){
+          var new_datas = [];
+          for (var i = 0; i < files[0].length; i++) {
+            new_datas[files[0][i].Indicateur] = extraction_variable(files[0][i].Indicateur,income);
+            
+            new_datas[files[0][i].Indicateur] = new_datas[files[0][i].Indicateur].sort(function(a,b){ return b.value - a.value; });
+            var points = 15;
+            for (var j = 0; j < new_datas[files[0][i].Indicateur].length; j++) {
+              if (j>0 && new_datas[files[0][i].Indicateur][j].value < new_datas[files[0][i].Indicateur][j-1].value) {
+                points--;
+              }
+              new_datas[files[0][i].Indicateur][j].points.push(points);
+            }
+          }
+          return new_datas;
+        }
+
+        var final_datas = [];
+        final_datas[2005] = sorted_variables(uniform_2005);
+        final_datas[2010] = sorted_variables(uniform_2010);
+        final_datas[2019] = sorted_variables(uniform_2019);
+
+        var json_final = [];
+        function final_extraction(annee){
+          json_f = [];
+          for (var j = 0; j < pays.length; j++) {
+            json_f[j] = [];
+            json_f[j].pays = pays[j];
+            json_f[j].value = 0;
+            for (var k = 0; k < files[j].length; k++) {
+              json_f[j].value += final_datas[annee][files[0][k].Indicateur].find(function(e){ return e.num_pays == j; }).points[0];
+            }
+          }
+          return json_f;
+        }
+        json_final["2005"] = final_extraction(2005);
+        json_final["2010"] = final_extraction(2010);
+        json_final["2019"] = final_extraction(2019);
+
+        
+        console.log(d3.max(json_final["2005"], function(e){ return e.value}));
+        console.log(json_final["2005"]);
           
 
         ///////////////////////////////////////////////////////////////////
         // REPRESENTATION DES DONNEES /////////////////////////////////////
         ///////////////////////////////////////////////////////////////////
+        var element = d3.select("#field3");
+        draw(json_final["2005"],2005,element);
 
-        var chart_data;
+        var element = d3.select("#field2");
+        draw(json_final["2010"],2010,element);
 
-        for (var i = 0; i < pays.length; i++) {
-          if (pays[i] !== "Nigéria") {
-            //Legend titles
-            var LegendOptions = [pays[11], pays[i]];
-
-            //Data
-            // var d = chart_data;
-            chart_data = data_set(2005,files[i])
-            var data = [chart_data[11], chart_data[i]];
-
-            var chart2 = d3.select("#field").append("div").attr("id","chart"+i).attr("class", "graphe").attr("style", "border:1px solid black;");
-
-            RadarChart.draw("#chart"+i, data, config);
-
-            legende("#chart"+i, LegendOptions, config);
-          }
-        }
+        var element = d3.select("#field1");
+        draw(json_final["2019"],2019,element);
 
 
-        $("#choix_annee").change(function(){
-          for (var i = 0; i < pays.length; i++) {
-            var chart_data_update = data_set($(this).val(),files[i]);
-            var update_data = [chart_data_update[11], chart_data_update[i]];
-            RadarChart.update("#chart"+i, update_data, config);
 
-            //Legend titles
-            var LegendOptions = [pays[11], pays[i]];
-            legende("#chart"+i, LegendOptions, config);
-          }
-        });
-
-        
     });
     }
       

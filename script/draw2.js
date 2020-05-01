@@ -23,7 +23,7 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-var color = d3.scale.category10();
+var color = d3.scale.category20c();
 
 var tooltip = d3.select("body").append("div") 
     .attr("class", "tooltip")       

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+<title>Economie par pays</title>
+
+<!-- Mirrored from www.w3schools.com/w3css/tryw3css_templates_analytics.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 Feb 2019 04:43:40 GMT -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+<link rel="stylesheet" href="all.min.css">
+<link rel="stylesheet" href="bootstrap.min.css">
+<script type="text/javascript" src="all.min.js"></script>
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
+</style>
+<script src="script/d3.v3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
+<script src="script/datas.js"></script>
+<script type="text/javascript">
+  dataset = data;
+</script>
+<style type="text/css">
+    div.tooltip {   
+        position: absolute;       
+        text-align: center;         
+        width: auto;                    
+        height: auto;                   
+        padding: 2px;               
+        font: 12px sans-serif;
+        border: 1px solid black;        
+        border-radius: 8px;         
+        pointer-events: none;           
+    }    
+</style>
+<body class="w3-light-grey" style="overflow: auto;">
+<script type="text/javascript" src="script/d3-legend.min.js"></script>
+<!-- Load d3.js -->
+<script src="script/d3.v5.min.js"></script>
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+  <span class="w3-bar-item w3-right">MSDA</span>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:250px;padding-top: 40px;" id="mySidebar"><br>
+  <!-- <div class="w3-container w3-row">
+    <div class="w3-col s8 w3-bar">
+      <h3>Actions</h3>
+    </div>
+  </div>
+  <hr> -->
+  <div class="w3-container">
+    <h4><b>ESPACE CEDEAO</b></h4>
+  </div>
+  <div class="w3-bar-block">
+    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Close Menu</a>
+    <a href="donnees-brutes.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-database fa-fw"></i>&nbsp; Données brutes</a>
+    <a href="heatmap.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-map fa-fw"></i>&nbsp; Heatmap</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-globe-africa fa-fw"></i>&nbsp; Economie par pays</a>
+    <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Geo</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>&nbsp; Orders</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; News</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>&nbsp; General</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>&nbsp; History</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a><br><br> -->
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h2><b><i class="fa fa-globe-africa"></i>&nbsp;&nbsp;Economie par pays</b></h2>
+  </header>
+
+  <div class="row">
+    <div class="w3-half">
+        
+
+        <div class="w3-row">
+          <div class="w3-half w3-padding">
+            <span>Pays</span>
+            <select class="w3-select" name="pays" id="pays">
+              <option value="" disabled selected>Choisir un pays</option>
+            </select>
+          </div>
+
+          <div class="w3-half w3-padding">
+            <span>Année</span>
+            <select class="w3-select" name="annee" id="annee">
+              <option value="2005" selected>2005</option>
+              <option value="2010">2010</option>
+              <option value="2019">2019</option>
+            </select>
+          </div>
+          <!-- Create a div where the graph will take place -->
+          <div id="diagram_1"></div>
+        </div>
+
+        
+    </div>
+
+    <div class="w3-half">
+        
+
+        <div class="w3-row">
+          <div class="w3-half w3-padding">
+            <span>Variable économique</span>
+            <select class="w3-select" name="caractere" id="caractere">
+              <option value="" disabled selected>Choisir un caractère</option>
+            </select>
+          </div>
+          <!-- Create a div where the graph will take place -->
+          <div id="diagram_2"></div>
+        </div>
+
+        
+    </div>
+  </div>
+
+  
+
+  <!-- Footer -->
+  <br><br><br><br><br>
+  <footer class="w3-container w3-blue">
+    <p>Powered by <b>Isaac Peterson</b></p>
+  </footer>
+
+  <!-- End page content -->
+</div>
+<script type="text/javascript" src="script/jquery.min.js"></script>
+<script type="text/javascript" src="script/datas.js"></script>
+<script>
+    
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+
+$(document).ready(function(){
+  var pays = data.map(function(d){return d.categorie});
+  for (var i = 0; i < pays.length; i++) {
+    $("#pays").append('<option value="'+i+'">'+pays[i]+'</option>');
+  }
+});
+
+    var annee = 2005;
+    visualisation(annee);
+    
+    var width = 330,
+        height = 330;
+
+    // Config for the Radar chart
+    var config = {
+        w: width,
+        h: height,
+        maxValue: 100,
+        levels: 5,
+        ExtraWidthX: 270
+    }
+
+    //Call function to draw the Radar chart
+    function visualisation(annee){
+      Promise.all([
+          d3.csv("donnees/donnees_benin.csv"),
+          d3.csv("donnees/donnees_burkina.csv"),
+          d3.csv("donnees/donnees_cabo_verde.csv"),
+          d3.csv("donnees/donnees_cote_divoire.csv"),
+          d3.csv("donnees/donnees_gambie.csv"),
+          d3.csv("donnees/donnees_ghana.csv"),
+          d3.csv("donnees/donnees_guinee.csv"),
+          d3.csv("donnees/donnees_guinee_bissau.csv"),
+          d3.csv("donnees/donnees_liberia.csv"),
+          d3.csv("donnees/donnees_mali.csv"),
+          d3.csv("donnees/donnees_niger.csv"),
+          d3.csv("donnees/donnees_nigeria.csv"),
+          d3.csv("donnees/donnees_senegal.csv"),
+          d3.csv("donnees/donnees_sierra_leone.csv"),
+          d3.csv("donnees/donnees_togo.csv"),
+        ])
+        .then(files =>{
+          var donnees_benin           = files[0];
+          var donnees_burkina         = files[1];
+          var donnees_cabo_verde      = files[2];
+          var donnees_cote_divoire    = files[3];
+          var donnees_gambie          = files[4];
+          var donnees_ghana           = files[5];
+          var donnees_guinee          = files[6];
+          var donnees_guinee_bissau   = files[7];
+          var donnees_liberia         = files[8];
+          var donnees_mali            = files[9];
+          var donnees_niger           = files[10];
+          var donnees_nigeria         = files[11];
+          var donnees_senegal         = files[12];
+          var donnees_sierra_leone    = files[13];
+          var donnees_togo            = files[14];
+
+          var pays = ["Bénin","Burkina Faso","Cap-Vert","Côte d'Ivoire","Gambie","Ghana","Guinée","Guinée Bissau","Libéria","Mali","Niger","Nigéria","Sénégal","Sierra Léone","Togo"];
+
+          modalites = ["PIB", "taux_PIB", "PIB_par_habitant", "pourcentage_va_agriculture", "pourcentage_va_industrie", "services_et_autres", "taux_emploi_agriculture", "taux_emploi_industrie", "taux_emploi_services", "taux_chomage", "population_active_femmes", "population_active_hommes", "IPC", "indice_production_agricole", "indice_production_industrielle", "commerce_international_export", "commerce_international_import", "commerce_international_balance", "balance_paiements"];
+
+          var colonnes = donnees_senegal.columns;
+
+            ////////////////////////////////////////////////////////
+           // MAXIMUMS ////////////////////////////////////////////
+          ////////////////////////////////////////////////////////
+          function list_max(a,tableau) {
+            var max1 = Math.max.apply(Math, (tableau.filter(el => (el.Indicateur === a))).map(function(o) { return o.valeur_2005; }));
+            var max2 = Math.max.apply(Math, (tableau.filter(el => (el.Indicateur === a))).map(function(o) { return o.valeur_2010; }));
+            var max3 = Math.max.apply(Math, (tableau.filter(el => (el.Indicateur === a))).map(function(o) { return o.valeur_2019; }));
+
+            return Math.max(max1,max2,max3);
+          }
+
+          var part_1 = [...donnees_benin,...donnees_burkina,...donnees_cabo_verde];
+          var part_2 = [...donnees_cote_divoire,...donnees_gambie,...donnees_ghana];
+          var part_3 = [...donnees_guinee,...donnees_guinee_bissau,...donnees_liberia];
+          var part_4 = [...donnees_mali,...donnees_niger,...donnees_nigeria];
+          var part_5 = [...donnees_senegal,...donnees_sierra_leone,...donnees_togo];
+
+          function all_parts_max(modalite,partie1,partie2,partie3,partie4,partie5){
+            var lm1 = list_max(modalite,partie1);
+            var lm2 = list_max(modalite,partie2);
+            var lm3 = list_max(modalite,partie3);
+            var lm4 = list_max(modalite,partie4);
+            var lm5 = list_max(modalite,partie5);
+
+            return Math.max(lm1,lm2,lm3,lm4,lm5);
+          }
+
+          
+          var max_PIB = all_parts_max("PIB",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_PIB = all_parts_max("taux_PIB",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_PIB_par_habitant = all_parts_max("PIB_par_habitant",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_pourcentage_va_agriculture = all_parts_max("pourcentage_va_agriculture",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_pourcentage_va_industrie = all_parts_max("pourcentage_va_industrie",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_services_et_autres = all_parts_max("services_et_autres",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_emploi_agriculture = all_parts_max("taux_emploi_agriculture",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_emploi_industrie = all_parts_max("taux_emploi_industrie",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_emploi_services = all_parts_max("taux_emploi_services",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_chomage = all_parts_max("taux_chomage",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_population_active_femmes = all_parts_max("population_active_femmes",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_population_active_hommes = all_parts_max("population_active_hommes",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_IPC = all_parts_max("IPC",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_indice_production_agricole = all_parts_max("indice_production_agricole",part_1,part_2,part_3,part_4,part_5);
+
+          var max_indice_production_industrielle = all_parts_max("indice_production_industrielle",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_commerce_international_export = all_parts_max("commerce_international_export",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_commerce_international_import = all_parts_max("commerce_international_import",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_commerce_international_balance = all_parts_max("commerce_international_balance",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_balance_paiements = all_parts_max("balance_paiements",part_1,part_2,part_3,part_4,part_5);
+
+          all_maxes = 
+          {
+            "max_PIB"                           : max_PIB,
+            "max_taux_PIB"                      : max_taux_PIB,
+            "max_PIB_par_habitant"              : max_PIB_par_habitant,
+            "max_pourcentage_va_agriculture"    : max_pourcentage_va_agriculture,
+            "max_pourcentage_va_industrie"      : max_pourcentage_va_industrie,
+            "max_services_et_autres"            : max_services_et_autres,
+            "max_taux_emploi_agriculture"       : max_taux_emploi_agriculture,
+            "max_taux_emploi_industrie"         : max_taux_emploi_industrie,
+            "max_taux_emploi_services"          : max_taux_emploi_services,
+            "max_taux_chomage"                  : max_taux_chomage,
+            "max_population_active_femmes"      : max_population_active_femmes,
+            "max_population_active_hommes"      : max_population_active_hommes,
+            "max_IPC"                           : max_IPC,
+            "max_indice_production_agricole"    : max_indice_production_agricole,
+            "max_indice_production_industrielle": max_indice_production_industrielle,
+            "max_commerce_international_export" : max_commerce_international_export,
+            "max_commerce_international_import" : max_commerce_international_import,
+            "max_commerce_international_balance": max_commerce_international_balance,
+            "max_balance_paiements"             : max_balance_paiements,
+          };
+
+
+          ////////////////////////////////////////////////////////
+           // MINIMUMS ////////////////////////////////////////////
+          ////////////////////////////////////////////////////////
+          function list_min(a,tableau) {
+            var min1 = Math.min.apply(Math, (tableau.filter(el => (el.Indicateur === a))).map(function(o) { return o.valeur_2005; }));
+            var min2 = Math.min.apply(Math, (tableau.filter(el => (el.Indicateur === a))).map(function(o) { return o.valeur_2010; }));
+            var min3 = Math.min.apply(Math, (tableau.filter(el => (el.Indicateur === a))).map(function(o) { return o.valeur_2019; }));
+
+            return Math.min(min1,min2,min3);
+          }
+
+          var part_1 = [...donnees_benin,...donnees_burkina,...donnees_cabo_verde];
+          var part_2 = [...donnees_cote_divoire,...donnees_gambie,...donnees_ghana];
+          var part_3 = [...donnees_guinee,...donnees_guinee_bissau,...donnees_liberia];
+          var part_4 = [...donnees_mali,...donnees_niger,...donnees_nigeria];
+          var part_5 = [...donnees_senegal,...donnees_sierra_leone,...donnees_togo];
+
+          function all_parts_min(modalite,partie1,partie2,partie3,partie4,partie5){
+            var lm1 = list_min(modalite,partie1);
+            var lm2 = list_min(modalite,partie2);
+            var lm3 = list_min(modalite,partie3);
+            var lm4 = list_min(modalite,partie4);
+            var lm5 = list_min(modalite,partie5);
+
+            return Math.min(lm1,lm2,lm3,lm4,lm5);
+          }
+
+          
+          var min_PIB = all_parts_min("PIB",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_taux_PIB = all_parts_min("taux_PIB",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_PIB_par_habitant = all_parts_min("PIB_par_habitant",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_pourcentage_va_agriculture = all_parts_min("pourcentage_va_agriculture",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_pourcentage_va_industrie = all_parts_min("pourcentage_va_industrie",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_services_et_autres = all_parts_min("services_et_autres",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_taux_emploi_agriculture = all_parts_min("taux_emploi_agriculture",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_taux_emploi_industrie = all_parts_min("taux_emploi_industrie",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_taux_emploi_services = all_parts_min("taux_emploi_services",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_taux_chomage = all_parts_min("taux_chomage",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_population_active_femmes = all_parts_min("population_active_femmes",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_population_active_hommes = all_parts_min("population_active_hommes",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_IPC = all_parts_min("IPC",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_indice_production_agricole = all_parts_min("indice_production_agricole",part_1,part_2,part_3,part_4,part_5);
+
+          var min_indice_production_industrielle = all_parts_min("indice_production_industrielle",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_commerce_international_export = all_parts_min("commerce_international_export",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_commerce_international_import = all_parts_min("commerce_international_import",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_commerce_international_balance = all_parts_min("commerce_international_balance",part_1,part_2,part_3,part_4,part_5);
+          
+          var min_balance_paiements = all_parts_min("balance_paiements",part_1,part_2,part_3,part_4,part_5);
+
+          all_mines = 
+          {
+            "min_PIB"                           : min_PIB,
+            "min_taux_PIB"                      : min_taux_PIB,
+            "min_PIB_par_habitant"              : min_PIB_par_habitant,
+            "min_pourcentage_va_agriculture"    : min_pourcentage_va_agriculture,
+            "min_pourcentage_va_industrie"      : min_pourcentage_va_industrie,
+            "min_services_et_autres"            : min_services_et_autres,
+            "min_taux_emploi_agriculture"       : min_taux_emploi_agriculture,
+            "min_taux_emploi_industrie"         : min_taux_emploi_industrie,
+            "min_taux_emploi_services"          : min_taux_emploi_services,
+            "min_taux_chomage"                  : min_taux_chomage,
+            "min_population_active_femmes"      : min_population_active_femmes,
+            "min_population_active_hommes"      : min_population_active_hommes,
+            "min_IPC"                           : min_IPC,
+            "min_indice_production_agricole"    : min_indice_production_agricole,
+            "min_indice_production_industrielle": min_indice_production_industrielle,
+            "min_commerce_international_export" : min_commerce_international_export,
+            "min_commerce_international_import" : min_commerce_international_import,
+            "min_commerce_international_balance": min_commerce_international_balance,
+            "min_balance_paiements"             : min_balance_paiements,
+          };
+          
+
+
+          var data_set = function(annee,donnees){
+            var chart_datas = [];
+
+            var M = 0;
+            var T = "";
+            var word = "";
+            var range;
+
+
+           
+              chart_datas = Array.from({length:modalites.length}, _ => ({modalite:"",titre:"",valeur:0,pourcentage:0}));
+
+              for (var i = 0; i < donnees.length; i++) {
+              
+                  T = String('max_'+donnees[i].Indicateur);
+                  M = all_maxes[T];
+
+                  t = String('min_'+donnees[i].Indicateur);
+                  m = all_mines[t];
+                  
+                  range = M - m;
+
+                  word = donnees[i].Indicateur;
+                  word = word.replace(/_/g, " ");
+                  word = word.replace(/taux/g, "%");
+                  word = word.replace(/pourcentage/g, "%");
+                  word = word.replace(/population/g, "Pop.");
+                  word = word.replace(/hommes/g, "♂");
+                  word = word.replace(/femmes/g, "♀");
+                  word = word.replace(/chomage/g, "chôm.");
+                  word = word.replace(/indice/g, "ind.");
+                  word = word.replace(/industrielle/g, "industr.");
+                  word = word.replace(/industrie/g, "industr.")
+                  word = word.replace(/production/g, "prod.");
+                  word = word.replace(/commerce international/g, "Com. Inter.");
+                  chart_datas[i].titre = word;
+                  chart_datas[i].variable = i+1;
+                  chart_datas[i].annee = annee;
+                  chart_datas[i].modalite = donnees[i].Indicateur;
+                  chart_datas[i].valeur = parseFloat(donnees[i]["valeur_"+annee]);
+                  chart_datas[i].pourcentage = (((parseFloat(donnees[i]["valeur_"+annee]) - m)*100)/range);
+                    
+                    
+                  
+                }
+              
+            
+            return chart_datas;
+          }
+          
+          var data_set_all = function(annee){
+            var chart_datas = [];
+
+            var M = 0;
+            var T = "";
+            var word = "";
+            var range;
+
+
+            for (var y = 0; y < pays.length; y++) {
+              // pays[y]
+              chart_datas[y] = Array.from({length:modalites.length}, _ => ({modalite:"",titre:"",pays:"",valeur:0,pourcentage:0}));
+
+              if (files[y].length == 19) {
+                for (var i = 0; i < files[y].length; i++) {
+              
+                  T = String('max_'+files[y][i].Indicateur);
+                  M = all_maxes[T];
+
+                  t = String('min_'+files[y][i].Indicateur);
+                  m = all_mines[t];
+                  
+                  range = M - m;
+
+                  word = files[y][i].Indicateur;
+                  word = word.replace(/_/g, " ");
+                  word = word.replace(/taux/g, "%");
+                  word = word.replace(/pourcentage/g, "%");
+                  word = word.replace(/population/g, "Pop.");
+                  word = word.replace(/hommes/g, "♂");
+                  word = word.replace(/femmes/g, "♀");
+                  word = word.replace(/chomage/g, "chôm.");
+                  word = word.replace(/indice/g, "ind.");
+                  word = word.replace(/industrielle/g, "industr.");
+                  word = word.replace(/industrie/g, "industr.")
+                  word = word.replace(/production/g, "prod.");
+                  word = word.replace(/commerce international/g, "Com. Inter.");
+                  chart_datas[y][i].titre = word;
+                  chart_datas[y][i].pays = pays[y];
+                  chart_datas[y][i].country = y+1;
+                  chart_datas[y][i].variable = i+1;
+                  chart_datas[y][i].annee = annee;
+                  chart_datas[y][i].modalite = files[y][i].Indicateur;
+                  chart_datas[y][i].valeur = parseFloat(files[y][i]["valeur_"+annee]);
+                  chart_datas[y][i].pourcentage = (((parseFloat(files[y][i]["valeur_"+annee]) - m)*100)/range);
+                    
+                    
+                  
+                }
+              }else{
+                for (var i = 0; i < modalites.length; i++) {
+              
+                  T = String('max_'+modalites[i]);
+                  M = all_maxes[T];
+
+                  t = String('min_'+modalites[i]);
+                  m = all_mines[t];
+                  
+                  range = M - m;
+
+                  var indicateur = files[y].find(function(d) {return d.Indicateur == modalites[i];});
+                  
+                  if(typeof indicateur !== "undefined" && typeof files[y][i] !== "undefined"){
+                    word = modalites[i];
+                    word = word.replace(/_/g, " ");
+                    word = word.replace(/taux/g, "%");
+                    word = word.replace(/pourcentage/g, "%");
+                    word = word.replace(/population/g, "Pop.");
+                    word = word.replace(/hommes/g, "♂");
+                    word = word.replace(/femmes/g, "♀");
+                    word = word.replace(/chomage/g, "chôm.");
+                    word = word.replace(/indice/g, "ind.");
+                    word = word.replace(/industrielle/g, "industr.");
+                    word = word.replace(/industrie/g, "industr.")
+                    word = word.replace(/production/g, "prod.");
+                    word = word.replace(/commerce international/g, "Com. Inter.");
+                    chart_datas[y][i].titre = word;
+                    chart_datas[y][i].pays = pays[y];
+                    chart_datas[y][i].country = y+1;
+                    chart_datas[y][i].variable = i+1;
+                    chart_datas[y][i].annee = annee;
+                    chart_datas[y][i].modalite = modalites[i];
+                    chart_datas[y][i].valeur = parseFloat(files[y][i]["valeur_"+annee]);
+                    chart_datas[y][i].pourcentage = (((parseFloat(files[y][i]["valeur_"+annee]) - m)*100)/range);
+                  }else{
+                    word = modalites[i];
+                    word = word.replace(/_/g, " ");
+                    word = word.replace(/taux/g, "%");
+                    word = word.replace(/pourcentage/g, "%");
+                    word = word.replace(/population/g, "Pop.");
+                    word = word.replace(/hommes/g, "♂");
+                    word = word.replace(/femmes/g, "♀");
+                    word = word.replace(/chomage/g, "chôm.");
+                    word = word.replace(/indice/g, "ind.");
+                    word = word.replace(/industrielle/g, "industr.");
+                    word = word.replace(/industrie/g, "industr.")
+                    word = word.replace(/production/g, "prod.");
+                    word = word.replace(/commerce international/g, "Com. Inter.");
+                    chart_datas[y][i].titre = word;
+                    chart_datas[y][i].pays = pays[y];
+                    chart_datas[y][i].country = y+1;
+                    chart_datas[y][i].variable = i+1;
+                    chart_datas[y][i].annee = annee;
+                    chart_datas[y][i].modalite = modalites[i];
+                    chart_datas[y][i].valeur = 0;
+                    chart_datas[y][i].pourcentage = 0;
+                  }
+                  
+                    
+                    
+                  
+                }
+              }
+              chart_datas[y] = chart_datas[y].filter(el => {
+                return (el.valeur_2005 !== 0);
+              });
+            }
+            return chart_datas;
+          }
+
+        ///////////////////////////////////////////////////////////////////
+        // REPRESENTATION DES DONNEES /////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
+
+        // console.log(data_set(2005,donnees_senegal));
+
+        // create 2 data_set
+        var data1 = data_set(2005,donnees_senegal);
+
+        // set the dimensions and margins of the graph
+        var margin = {top: 30, right: 95, bottom: 110, left: 30},
+            width = 460 - margin.left - margin.right,
+            height = 450 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        var svg = d3.select("#diagram_1")
+          .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform",
+                  "translate(" + margin.left + "," + margin.top + ")");
+
+        // Initialize the X axis
+        var x = d3.scaleBand()
+          .range([ 0, width ])
+          .padding(0.2);
+        var xAxis = svg.append("g")
+          .attr("transform", "translate(0," + height + ")");
+
+        // Initialize the Y axis
+        var y = d3.scaleLinear()
+          .range([ height, 0]);
+        var yAxis = svg.append("g")
+          .attr("class", "myYaxis")
+
+
+        // A function that create / update1 the plot for a given variable:
+        function update1(data) {
+          d3.selectAll("#legend1").remove();
+          // Update1 the X axis
+          x.domain(data.map(function(d) { return d.titre; }))
+          xAxis.call(d3.axisBottom(x))
+          .selectAll("text")  
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-65)");
+
+          var color = d3.scale.category20();
+
+          // Update1 the Y axis
+          y.domain([d3.min(data, function(d) { return d.pourcentage }), d3.max(data, function(d) { return d.pourcentage }) ]);
+          yAxis.transition().duration(1000).call(d3.axisLeft(y));
+          // console.log(data);
+
+          // Create the u variable
+          var u = svg.selectAll("rect")
+            .data(data)
+
+          u
+            .enter()
+            .append("rect") // Add a new rect for each new elements
+            .merge(u) // get the already existing elements as well
+            .transition() // and apply changes to all of them
+            .duration(1000)
+              .attr("x", function(d) { return x(d.titre); })
+              .attr("y", function(d) { return y(d.pourcentage); })
+              .attr("width", x.bandwidth())
+              .attr("height", function(d) { return height - y(d.pourcentage); })
+              .attr("fill", function(d){return color(d.titre)});
+
+            //Legend
+            var legend = d3.legendColor()
+                          .scale(color);
+            svg.append("g")
+              .attr("transform", "translate(418,0)scale(0.75)")
+              .attr("id","legend1")
+              .call(legend);
+
+              d3.selectAll(".cell .label").attr("transform","translate(-10,10)").style("text-anchor", "end")
+
+          // If less titre in the new dataset, I delete the ones not in use anymore
+          u
+            .exit()
+            .remove();
+
+            $("#caractere").html('<option value="" disabled selected>Choisir un caractère</option>');
+            var caractere = data.map(function(d){return d.titre});
+            for (var i = 0; i < caractere.length; i++) {
+              if (caractere[i] !== "") {
+                $("#caractere").append('<option value="'+i+'" class="caracteres">'+caractere[i]+'</option>');
+              }
+            }
+        }
+
+
+        function update2(data) {
+          d3.selectAll("#legend1").remove();
+          // Update1 the X axis
+          x.domain(data.map(function(d) { return d.titre; }))
+          xAxis.call(d3.axisBottom(x))
+          .selectAll("text")  
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-65)");
+
+          var color = d3.scale.category20();
+
+          // Update1 the Y axis
+          y.domain([d3.min(data, function(d) { return d.pourcentage }), d3.max(data, function(d) { return d.pourcentage }) ]);
+          yAxis.transition().duration(1000).call(d3.axisLeft(y));
+
+          // Create the u variable
+          var u = svg.selectAll(".lineTest")
+            .data([data], function(d){ return d.ser1 });
+
+          // Updata the line
+          u
+            .enter()
+            .append("path")
+            .attr("class","lineTest")
+            .merge(u)
+            .transition()
+            .duration(3000)
+            .attr("d", d3.line()
+              .x(function(d) { return x(d.ser1); })
+              .y(function(d) { return y(d.ser2); }))
+              .attr("fill", "none")
+              .attr("stroke", "steelblue")
+              .attr("stroke-width", 2.5);
+
+            //Legend
+            var legend = d3.legendColor()
+                          .scale(color);
+            svg.append("g")
+              .attr("transform", "translate(418,0)scale(0.75)")
+              .attr("id","legend1")
+              .call(legend);
+
+              d3.selectAll(".cell .label").attr("transform","translate(-10,10)").style("text-anchor", "end")
+
+          // If less titre in the new dataset, I delete the ones not in use anymore
+          u
+            .exit()
+            .remove();
+        }
+
+        // Initialize the plot with the first dataset
+        update1(data1);
+        $("#pays").on("change",function(){
+          var country = $(this).val();
+          var year = $("#annee").val();
+          
+          var d = data_set(year,files[country]);
+          update1(d);
+        });
+
+        $("#annee").on("change",function(){
+          var year = $(this).val();
+          var country = $("#pays").val();
+          
+          var d = data_set(year,files[country]);
+          update1(d);
+        });
+        
+
+    
+// console.log();
+        
+    });
+    }
+   
+</script>
+
+</body>
+
+<!-- Mirrored from www.w3schools.com/w3css/tryw3css_templates_analytics.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 Feb 2019 04:43:41 GMT -->
+</html>

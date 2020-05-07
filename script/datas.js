@@ -1,6 +1,6 @@
 var data = [
     {
-        "categorie": "Bénin", 
+        "categorie": "Benin", 
         "values": [
            {
              "Indicateur": "PIB",
@@ -690,7 +690,7 @@ var data = [
 ]
     }, 
     {
-        "categorie": "Guinée", 
+        "categorie": "Guinea", 
         "values": [
  {
    "Indicateur": "PIB",
@@ -803,7 +803,7 @@ var data = [
 ]
     }, 
     {
-        "categorie": "Guinée Bissau", 
+        "categorie": "Guinea-Bissau", 
         "values": [
  {
    "Indicateur": "PIB",
@@ -916,7 +916,7 @@ var data = [
 ]
     }, 
     {
-        "categorie": "Libéria", 
+        "categorie": "Liberia", 
         "values": [
  {
    "Indicateur": "PIB",
@@ -1255,7 +1255,7 @@ var data = [
 ]
     }, 
     {
-        "categorie": "Nigéria", 
+        "categorie": "Nigeria", 
         "values": [
  {
    "Indicateur": "PIB",
@@ -1368,7 +1368,7 @@ var data = [
 ]
     }, 
     {
-        "categorie": "Sénégal", 
+        "categorie": "Senegal", 
         "values": [
  {
    "Indicateur": "PIB",
@@ -1487,7 +1487,7 @@ var data = [
 ]
     }, 
     {
-        "categorie": "Sierra Léone", 
+        "categorie": "Sierra Leone", 
         "values": [
  {
    "Indicateur": "PIB",

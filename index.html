@@ -157,7 +157,7 @@ var div = d3.select("#carte").append("div")
     .style("opacity", 0);
 
 //Load in GeoJSON data
-d3.json("map.json", function(json) {               
+d3.json("script/map.json", function(json) {               
   var max_pop = d3.max(json.features, function(d){return d.properties.pop_est});
   var min_pop = d3.min(json.features, function(d){return d.properties.pop_est});
 

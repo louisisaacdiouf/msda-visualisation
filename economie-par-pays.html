@@ -20,17 +20,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
   dataset = data;
 </script>
 <style type="text/css">
-    div.tooltip {   
-        position: absolute;       
-        text-align: center;         
-        width: auto;                    
-        height: auto;                   
-        padding: 2px;               
-        font: 12px sans-serif;
-        border: 1px solid black;        
-        border-radius: 8px;         
-        pointer-events: none;           
-    }    
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 2px;
+    }
+    .hidden {
+      display: none;
+    }
 </style>
 <body class="w3-light-grey" style="overflow: auto;">
 <script type="text/javascript" src="script/d3-legend.min.js"></script>
@@ -162,7 +159,7 @@ function w3_close() {
 }
 
 $(document).ready(function(){
-  var pays = data.map(function(d){return d.categorie});
+  var pays = ["Bénin","Burkina Faso","Cap-Vert","Côte d'Ivoire","Gambie","Ghana","Guinée","Guinée Bissau","Libéria","Mali","Niger","Nigéria","Sénégal","Sierra Léone","Togo"];
   for (var i = 0; i < pays.length; i++) {
     $("#pays").append('<option value="'+i+'">'+pays[i]+'</option>');
   }
@@ -610,7 +607,9 @@ $(document).ready(function(){
         var y = d3.scaleLinear()
           .range([ height, 0]);
         var yAxis = svg.append("g")
-          .attr("class", "myYaxis")
+          .attr("class", "myYaxis");
+
+        
 
 
         // A function that create / update1 the plot for a given variable:
@@ -646,7 +645,8 @@ $(document).ready(function(){
               .attr("y", function(d) { return y(d.pourcentage); })
               .attr("width", x.bandwidth())
               .attr("height", function(d) { return height - y(d.pourcentage); })
-              .attr("fill", function(d){return color(d.titre)});
+              .attr("fill", function(d){return color(d.titre)})
+              .attr("content", function(d){return "<b>"+d.titre+"</b><br>"+d.valeur});
 
             //Legend
             var legend = d3.legendColor()
@@ -673,57 +673,7 @@ $(document).ready(function(){
         }
 
 
-        function update2(data) {
-          d3.selectAll("#legend1").remove();
-          // Update1 the X axis
-          x.domain(data.map(function(d) { return d.titre; }))
-          xAxis.call(d3.axisBottom(x))
-          .selectAll("text")  
-          .style("text-anchor", "end")
-          .attr("dx", "-.8em")
-          .attr("dy", ".15em")
-          .attr("transform", "rotate(-65)");
-
-          var color = d3.scale.category20();
-
-          // Update1 the Y axis
-          y.domain([d3.min(data, function(d) { return d.pourcentage }), d3.max(data, function(d) { return d.pourcentage }) ]);
-          yAxis.transition().duration(1000).call(d3.axisLeft(y));
-
-          // Create the u variable
-          var u = svg.selectAll(".lineTest")
-            .data([data], function(d){ return d.ser1 });
-
-          // Updata the line
-          u
-            .enter()
-            .append("path")
-            .attr("class","lineTest")
-            .merge(u)
-            .transition()
-            .duration(3000)
-            .attr("d", d3.line()
-              .x(function(d) { return x(d.ser1); })
-              .y(function(d) { return y(d.ser2); }))
-              .attr("fill", "none")
-              .attr("stroke", "steelblue")
-              .attr("stroke-width", 2.5);
-
-            //Legend
-            var legend = d3.legendColor()
-                          .scale(color);
-            svg.append("g")
-              .attr("transform", "translate(418,0)scale(0.75)")
-              .attr("id","legend1")
-              .call(legend);
-
-              d3.selectAll(".cell .label").attr("transform","translate(-10,10)").style("text-anchor", "end")
-
-          // If less titre in the new dataset, I delete the ones not in use anymore
-          u
-            .exit()
-            .remove();
-        }
+        
 
         // Initialize the plot with the first dataset
         update1(data1);
@@ -733,6 +683,8 @@ $(document).ready(function(){
           
           var d = data_set(year,files[country]);
           update1(d);
+          // $("#caractere option[value=0]").attr('selected','selected');
+          update2();
         });
 
         $("#annee").on("change",function(){
@@ -752,6 +704,106 @@ $(document).ready(function(){
    
 </script>
 
+<script>
+var countries = ["Bénin","Burkina Faso","Cap-Vert","Côte d'Ivoire","Gambie","Ghana","Guinée","Guinée Bissau","Libéria","Mali","Niger","Nigéria","Sénégal","Sierra Léone","Togo"];
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 85, bottom: 110, left: 50},
+            width = 460 - margin.left - margin.right,
+            height = 450 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#diagram_2")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// Initialise a X axis:
+var x = d3.scaleLinear().range([0,width]);
+var xAxis = d3.axisBottom().scale(x).ticks(3);
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .attr("class","myXaxis")
+
+// Initialize an Y axis
+var y = d3.scaleLinear().range([height, 0]);
+var yAxis = d3.axisLeft().scale(y);
+svg.append("g")
+  .attr("class","myYaxis")
+
+// Create a function that takes a dataset as input and update the plot:
+function update2() {
+  $('#caractere option[value=0]').attr('selected','selected');
+  // Get the data
+  var num_char = $("#caractere").val();
+  if (num_char == null) {
+    num_char = 0;
+  }
+  var num_pays = $("#pays").val();
+  if (num_pays == null) {
+    num_pays = 12;
+  }
+  var valeurs = dataset[num_pays].values[num_char];
+  
+
+  var data = [
+                {"annee" : 2005, "valeur" : valeurs.valeur_2005},
+                {"annee" : 2010, "valeur" : valeurs.valeur_2010},
+                {"annee" : 2019, "valeur" : valeurs.valeur_2019}
+              ];
+
+  // Create the X axis:
+  x.domain([d3.min(data, function(d){return d.annee}), d3.max(data, function(d){return d.annee})+1]);
+  svg.selectAll(".myXaxis").transition()
+    .duration(1000)
+    .call(xAxis);
+
+  // create the Y axis
+  y.domain([d3.min(data, function(d){return d.valeur}), d3.max(data, function(d){return d.valeur})]);
+  svg.selectAll(".myYaxis")
+    .transition()
+    .duration(1000)
+    .call(yAxis);
+
+  // Create a update2 selection: bind to the new data
+  var u = svg.selectAll(".lineTest")
+    .data([data], function(d){ return d.valeur });
+
+  // Updata the line
+  u
+    .enter()
+    .append("path")
+    .attr("class","lineTest")
+    .merge(u)
+    .transition()
+    .duration(1000)
+    .attr("d", d3.line()
+      .x(function(d) { return x(d.annee); })
+      .y(function(d) { return y(d.valeur); }))
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 2.5);
+
+    first=data[0].valeur;
+    last=data[2].valeur;
+    d3.selectAll(".xTitre").remove();
+    svg.append("text").attr("class","xTitre")        
+    .attr("transform",
+          "translate(" + (width/2) + " ," + 
+                         (height + margin.top + 20) + ")")
+    .style("text-anchor", "middle")
+    .text(countries[num_pays]+" PIB 2005-2019: taux de croissance = "+ d3.round(100*(last-first)/first,2)+"%");
+}
+
+// At the beginning, I run the update2 function on the first dataset:
+update2();
+d3.selectAll("#caractere").on("change", update2);
+
+  
+
+</script>
 </body>
 
 <!-- Mirrored from www.w3schools.com/w3css/tryw3css_templates_analytics.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 Feb 2019 04:43:41 GMT -->

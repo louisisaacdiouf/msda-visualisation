@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<title>Classement</title>
+
+<!-- Mirrored from www.w3schools.com/w3css/tryw3css_templates_analytics.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 Feb 2019 04:43:40 GMT -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+<link rel="stylesheet" href="css/all.min.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="script/all.min.js"></script>
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
+</style>
+<script src="script/d3.v3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
+<script src="script/datas.js"></script>
+<script type="text/javascript">
+  dataset = data;
+</script>
+<style type="text/css">
+  .axis {
+      font: 28px sans-serif;
+    }
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #D4D8DA;
+      stroke-width: 2px;
+    }
+    .graphe,#field1,#field2,#field3 {
+      position: relative;
+      display: inline-block;
+    }
+    div.tooltip { 
+        position: absolute;     
+        text-align: center;     
+        width: auto;          
+        height: auto;         
+        padding: 2px;       
+        font: 12px sans-serif;
+        border-radius: 8px;     
+        pointer-events: none;     
+    }
+    </style>
+<body class="w3-light-grey" style="overflow: auto;">
+<script type="text/javascript" src="script/d3-legend.min.js"></script>
+<!-- Load d3.js -->
+<script src="script/d3.v5.min.js"></script>
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
+  <span class="w3-bar-item w3-right">MSDA</span>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:250px;padding-top: 40px;" id="mySidebar"><br>
+  <!-- <div class="w3-container row">
+    <div class="w3-col s8 w3-bar">
+      <h3>Actions</h3>
+    </div>
+  </div>
+  <hr> -->
+  <div class="w3-container">
+    <h4><b>ESPACE CEDEAO</b></h4>
+  </div>
+  <div class="w3-bar-block">
+    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Close Menu</a>
+    <a href="donnees-brutes.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-database fa-fw"></i>&nbsp; Données brutes</a>
+    <a href="heatmap.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-map fa-fw"></i>&nbsp; Heatmap et carte</a>
+    <a href="economie-par-pays.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-globe-africa fa-fw"></i>&nbsp; Economie par pays</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-chart-bar fa-fw"></i>&nbsp; Classement</a>
+    <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Geo</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>&nbsp; Orders</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; News</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>&nbsp; General</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>&nbsp; History</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a><br><br> -->
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h2><b><i class="fa fa-chart-bar"></i>&nbsp;&nbsp;Classement par année</b></h2>
+  </header>
+
+  <div class="row">
+    <div class="col-md-6 col-sm-12 col-xs-12 col-lg-6">
+        
+
+        <div class="row">
+          <div class="col-md-6 col-sm-12 col-xs-12 col-lg-6 w3-padding">
+            <span>Année</span>
+            <select name="annee" id="annee">
+              <option value="2005" selected>2005</option>
+              <option value="2010">2010</option>
+              <option value="2019">2019</option>
+            </select>
+          </div>
+          <!-- Create a div where the graph will take place -->
+          <div id="field"></div>
+        </div>
+
+        
+    </div>
+  </div>
+
+  
+
+  <!-- Footer -->
+  <br><br><br><br><br>
+  <footer class="w3-container w3-blue">
+    <p>Powered by <b>Isaac Peterson</b></p>
+  </footer>
+
+  <!-- End page content -->
+</div>
+<script type="text/javascript" src="script/jquery.min.js"></script>
+<script src="script/draw3.js"></script>
+<script type="text/javascript" src="script/datas.js"></script>
+<script>
+    
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+
+$(document).ready(function(){
+  var pays = ["Bénin","Burkina Faso","Cap-Vert","Côte d'Ivoire","Gambie","Ghana","Guinée","Guinée Bissau","Libéria","Mali","Niger","Nigéria","Sénégal","Sierra Léone","Togo"];
+  for (var i = 0; i < pays.length; i++) {
+    $("#pays").append('<option value="'+i+'">'+pays[i]+'</option>');
+  }
+});
+    
+    var width = 330,
+        height = 330;
+
+    // Config for the Radar chart
+    var config = {
+        w: width,
+        h: height,
+        maxValue: 100,
+        levels: 5,
+        ExtraWidthX: 270
+    }
+
+    var annee = 2005;
+    visualisation(annee);
+    
+    
+
+    //Call function to draw the Radar chart
+    function visualisation(annee){
+      Promise.all([
+          d3.csv("donnees/donnees_benin.csv"),
+          d3.csv("donnees/donnees_burkina.csv"),
+          d3.csv("donnees/donnees_cabo_verde.csv"),
+          d3.csv("donnees/donnees_cote_divoire.csv"),
+          d3.csv("donnees/donnees_gambie.csv"),
+          d3.csv("donnees/donnees_ghana.csv"),
+          d3.csv("donnees/donnees_guinee.csv"),
+          d3.csv("donnees/donnees_guinee_bissau.csv"),
+          d3.csv("donnees/donnees_liberia.csv"),
+          d3.csv("donnees/donnees_mali.csv"),
+          d3.csv("donnees/donnees_niger.csv"),
+          d3.csv("donnees/donnees_nigeria.csv"),
+          d3.csv("donnees/donnees_senegal.csv"),
+          d3.csv("donnees/donnees_sierra_leone.csv"),
+          d3.csv("donnees/donnees_togo.csv"),
+        ])
+        .then(files =>{
+          var donnees_benin           = files[0];
+          var donnees_burkina         = files[1];
+          var donnees_cabo_verde      = files[2];
+          var donnees_cote_divoire    = files[3];
+          var donnees_gambie          = files[4];
+          var donnees_ghana           = files[5];
+          var donnees_guinee          = files[6];
+          var donnees_guinee_bissau   = files[7];
+          var donnees_liberia         = files[8];
+          var donnees_mali            = files[9];
+          var donnees_niger           = files[10];
+          var donnees_nigeria         = files[11];
+          var donnees_senegal         = files[12];
+          var donnees_sierra_leone    = files[13];
+          var donnees_togo            = files[14];
+
+          var pays = ["Bénin","Burkina Faso","Cap-Vert","Côte d'Ivoire","Gambie","Ghana","Guinée","Guinée Bissau","Libéria","Mali","Niger","Nigéria","Sénégal","Sierra Léone","Togo"];
+
+
+          var colonnes = donnees_senegal.columns;
+
+          function list_max(a,tableau) {
+            var max1 = Math.max.apply(Math, (tableau.filter(el => (el.Indicateur === a))).map(function(o) { return o.valeur_2005; }));
+            var max2 = Math.max.apply(Math, (tableau.filter(el => (el.Indicateur === a))).map(function(o) { return o.valeur_2010; }));
+            var max3 = Math.max.apply(Math, (tableau.filter(el => (el.Indicateur === a))).map(function(o) { return o.valeur_2019; }));
+
+            return Math.max(max1,max2,max3);
+          }
+
+          var part_1 = [...donnees_benin,...donnees_burkina,...donnees_cabo_verde];
+          var part_2 = [...donnees_cote_divoire,...donnees_gambie,...donnees_ghana];
+          var part_3 = [...donnees_guinee,...donnees_guinee_bissau,...donnees_liberia];
+          var part_4 = [...donnees_mali,...donnees_niger,...donnees_nigeria];
+          var part_5 = [...donnees_senegal,...donnees_sierra_leone,...donnees_togo];
+          
+
+          function all_parts_max(modalite,partie1,partie2,partie3,partie4,partie5){
+            var lm1 = list_max(modalite,partie1);
+            var lm2 = list_max(modalite,partie2);
+            var lm3 = list_max(modalite,partie3);
+            var lm4 = list_max(modalite,partie4);
+            var lm5 = list_max(modalite,partie5);
+
+            return Math.max(lm1,lm2,lm3,lm4,lm5);
+          }
+
+          // X axis
+          
+
+          
+          var max_PIB = all_parts_max("PIB",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_PIB = all_parts_max("taux_PIB",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_PIB_par_habitant = all_parts_max("PIB_par_habitant",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_pourcentage_va_agriculture = all_parts_max("pourcentage_va_agriculture",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_pourcentage_va_industrie = all_parts_max("pourcentage_va_industrie",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_services_et_autres = all_parts_max("services_et_autres",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_emploi_agriculture = all_parts_max("taux_emploi_agriculture",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_emploi_industrie = all_parts_max("taux_emploi_industrie",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_emploi_services = all_parts_max("taux_emploi_services",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_taux_chomage = all_parts_max("taux_chomage",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_population_active_femmes = all_parts_max("population_active_femmes",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_population_active_hommes = all_parts_max("population_active_hommes",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_IPC = all_parts_max("IPC",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_indice_production_agricole = all_parts_max("indice_production_agricole",part_1,part_2,part_3,part_4,part_5);
+
+          var max_indice_production_industrielle = all_parts_max("indice_production_industrielle",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_commerce_international_export = all_parts_max("commerce_international_export",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_commerce_international_import = all_parts_max("commerce_international_import",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_commerce_international_balance = all_parts_max("commerce_international_balance",part_1,part_2,part_3,part_4,part_5);
+          
+          var max_balance_paiements = all_parts_max("balance_paiements",part_1,part_2,part_3,part_4,part_5);
+
+          var all_maxes = 
+          {
+            "max_PIB"                           : max_PIB,
+            "max_taux_PIB"                      : max_taux_PIB,
+            "max_PIB_par_habitant"              : max_PIB_par_habitant,
+            "max_pourcentage_va_agriculture"    : max_pourcentage_va_agriculture,
+            "max_pourcentage_va_industrie"      : max_pourcentage_va_industrie,
+            "max_services_et_autres"            : max_services_et_autres,
+            "max_taux_emploi_agriculture"       : max_taux_emploi_agriculture,
+            "max_taux_emploi_industrie"         : max_taux_emploi_industrie,
+            "max_taux_emploi_services"          : max_taux_emploi_services,
+            "max_taux_chomage"                  : max_taux_chomage,
+            "max_population_active_femmes"      : max_population_active_femmes,
+            "max_population_active_hommes"      : max_population_active_hommes,
+            "max_IPC"                           : max_IPC,
+            "max_indice_production_agricole"    : max_indice_production_agricole,
+            "max_indice_production_industrielle": max_indice_production_industrielle,
+            "max_commerce_international_export" : max_commerce_international_export,
+            "max_commerce_international_import" : max_commerce_international_import,
+            "max_commerce_international_balance": max_commerce_international_balance,
+            "max_balance_paiements"             : max_balance_paiements,
+          };
+          
+
+
+          var data_set = function(annee,donnees){
+            var chart_datas = [];
+
+            var M = 0;
+            var T = "";
+            var word = "";
+
+
+            for (var y = 0; y < pays.length; y++) {
+              // pays[y]
+              chart_datas[y] = Array.from({length:donnees.length}, _ => ({area:"",value:0}));
+
+              for (var i = 0; i < files[y].length; i++) {
+              
+                T = String('max_'+files[y][i].Indicateur);
+                M = all_maxes[T];
+                if(typeof chart_datas[y][i] !== "undefined"){
+                  T = String('max_'+files[y][i].Indicateur);
+                  M = all_maxes[T];
+                  // console.log(T);
+                  // console.log(M);
+
+                  word = files[y][i].Indicateur;
+                  // word = word.replace(/_/g, " ");
+                  // word = word.replace(/taux/g, "%");
+                  // word = word.replace(/pourcentage/g, "%");
+                  // word = word.replace(/population/g, "Pop.");
+                  // word = word.replace(/hommes/g, "♂");
+                  // word = word.replace(/femmes/g, "♀");
+                  // word = word.replace(/chomage/g, "chôm.");
+                  // word = word.replace(/indice/g, "ind.");
+                  // word = word.replace(/production/g, "prod.");
+                  // word = word.replace(/commerce international/g, "Com. Inter.");
+                  chart_datas[y][i].area = word;
+                  chart_datas[y][i].value = ((files[y][i]["valeur_"+annee]*100)/M);
+                  
+                  
+                }
+              }
+              chart_datas[y] = chart_datas[y].filter(el => {
+                return (el.valeur_2005 !== 0);
+              });
+            }
+            return chart_datas;
+          }
+          
+            // console.log(Math.abs(-100));
+
+
+
+            var uniform_2005 = data_set(2005, files[0]);
+        var uniform_2010 = data_set(2010, files[0]);
+        var uniform_2019 = data_set(2019, files[0]);
+
+        function extraction_variable(variable,income){
+          var dd = [];
+
+          for (var i = 0; i < pays.length; i++) {
+            var aa = income[i].find(function(e){ return e.area == variable; });
+            dd[i] = [];
+            dd[i]["num_pays"] = i;
+            dd[i]["points"] = [];
+
+            if (typeof aa != "undefined") {
+              dd[i]["value"] = aa.value;
+            }else{
+              dd[i]["value"] = 0;
+            }
+
+          }
+          return dd;
+        } 
+
+        function sorted_variables(income){
+          var new_datas = [];
+          for (var i = 0; i < files[0].length; i++) {
+            new_datas[files[0][i].Indicateur] = extraction_variable(files[0][i].Indicateur,income);
+            
+            new_datas[files[0][i].Indicateur] = new_datas[files[0][i].Indicateur].sort(function(a,b){ return b.value - a.value; });
+            var points = 15;
+            for (var j = 0; j < new_datas[files[0][i].Indicateur].length; j++) {
+              if (j>0 && new_datas[files[0][i].Indicateur][j].value < new_datas[files[0][i].Indicateur][j-1].value) {
+                points--;
+              }
+              new_datas[files[0][i].Indicateur][j].points.push(points);
+            }
+          }
+          return new_datas;
+        }
+
+        var final_datas = [];
+        final_datas[2005] = sorted_variables(uniform_2005);
+        final_datas[2010] = sorted_variables(uniform_2010);
+        final_datas[2019] = sorted_variables(uniform_2019);
+
+        var json_final = [];
+        function final_extraction(annee){
+          json_f = [];
+          for (var j = 0; j < pays.length; j++) {
+            json_f[j] = [];
+            json_f[j].pays = pays[j];
+            json_f[j].value = 0;
+            for (var k = 0; k < files[j].length; k++) {
+              json_f[j].value += final_datas[annee][files[0][k].Indicateur].find(function(e){ return e.num_pays == j; }).points[0];
+            }
+          }
+          return json_f;
+        }
+        json_final["2005"] = final_extraction(2005);
+        json_final["2010"] = final_extraction(2010);
+        json_final["2019"] = final_extraction(2019);
+
+        
+        console.log(d3.max(json_final["2005"], function(e){ return e.value}));
+        console.log(json_final["2005"]);
+          
+
+        ///////////////////////////////////////////////////////////////////
+        // REPRESENTATION DES DONNEES /////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////
+        var element = d3.select("#field");
+        draw(json_final["2005"],2005,element);
+
+        d3.select("#annee").on("change",function(){
+          var an = d3.select(this).property("value");
+          update(json_final[an],an,element);
+          console.log(json_final[an]);
+        });
+
+    });
+    }
+   
+</script>
+</body>
+
+<!-- Mirrored from www.w3schools.com/w3css/tryw3css_templates_analytics.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 Feb 2019 04:43:41 GMT -->
+</html>

@@ -13,7 +13,7 @@
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
 </style>
-<script src="script/d3.v5.min.js"></script>
+
 <script src="script/jquery.min.js"></script>
 <script src="script/datas.js"></script>
 <script type="text/javascript">
@@ -73,8 +73,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Close Menu</a>
     <a href="donnees-brutes.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-database fa-fw"></i>&nbsp; Données brutes</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-map fa-fw"></i>&nbsp; Heatmap</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-map fa-fw"></i>&nbsp; Heatmap et carte</a>
     <a href="economie-par-pays.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-globe-africa fa-fw"></i>&nbsp; Economie par pays</a>
+    <a href="classement.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-chart-bar fa-fw"></i>&nbsp; Classement</a>
     <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Geo</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>&nbsp; Orders</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; News</a>
@@ -104,7 +105,24 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
       </div>
       <div id="heatmap" style="font-size: 15px !important;"></div>
     </div>
+  </div><br><hr><br>
+
+
+  <div class="row w3-responsive">
+        <h4><b><i class="fa fa-globe-africa"></i>&nbsp;&nbsp;Heatmap sur carte</b></h4>
+        <div id="nav-container">
+          <span><b>Année</b></span>&nbsp;&nbsp;
+          <select id="mod_carte">
+            <option value="2005" selected>2005</option>
+            <option value="2010">2010</option>
+            <option value="2019">2019</option>
+          </select>
+          <span><b>Année</b></span>&nbsp;&nbsp;
+          <select id="mod_var"></select>
+      </div><br>
+      <div id="carte"></div>
   </div>
+</div>
 
   
 
@@ -116,11 +134,237 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
 
   <!-- End page content -->
 </div>
- <script type="text/javascript">
-  var data = datas;
-</script>
- <script type="text/javascript" src="script/heatmap.js"></script>
+<script src="script/d3.v3.js"></script>
+<script type="text/javascript">
+  
 
+  //Width and height
+var w = $("#carte").width() * 0.95;
+var h = w/2;
+
+// var color = d3.scale.linear().domain([1,100])
+//   .range(["white", "green"]);
+
+//Define map projection
+var projection = d3.geo.mercator()
+                       .translate([w/2, h])
+                       .scale([w]);
+
+//Define path generator
+var path = d3.geo.path()
+                 .projection(projection);
+
+//Create SVG element
+var svg = d3.select("#carte")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h)
+            .style("border", "2px solid black");
+
+// Define the div for the tooltip
+var div = d3.select("#carte").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);
+
+//Load in GeoJSON data
+d3.json("script/map.json", function(json) {         
+  
+
+  
+    modalites = ["PIB", "taux_PIB", "PIB_par_habitant", "pourcentage_va_agriculture", "pourcentage_va_industrie", "services_et_autres", "taux_emploi_agriculture", "taux_emploi_industrie", "taux_emploi_services", "taux_chomage", "population_active_femmes", "population_active_hommes", "IPC", "indice_production_agricole", "indice_production_industrielle", "commerce_international_export", "commerce_international_import", "commerce_international_balance", "balance_paiements"];
+    var index;
+
+    $(document).ready(function(){
+      for (var i = 0; i < modalites.length; i++) {
+        if (i==0) {
+          $("#mod_var").append('<option value="'+modalites[i]+'" selected>'+modalites[i]+'</option>');
+        }else{
+          $("#mod_var").append('<option value="'+modalites[i]+'">'+modalites[i]+'</option>');
+        }
+      }
+    });
+
+
+    function legende(min,max){
+      var data = [{"color":"white","value":min},{"color":"green","value":max}];
+                var extent = [data[0].value,data[1].value];
+                
+                var padding = 20;
+                var width = 400;
+                var innerWidth = width - (padding * 4);
+                var barHeight = 8;
+                var height = 28;
+
+                var xScale = d3.scaleLinear()
+                    .range([0, innerWidth])
+                    .domain(extent);
+
+                var xTicks = [data[0].value,data[1].value];
+
+                var xAxis = d3.axisBottom(xScale)
+                    .tickSize(barHeight * 2)
+                    .tickValues(xTicks);
+
+                var svg = d3.select("#carte")
+                            .append("svg")
+                            .attr("id", "legende")
+                            .attr("width", width)
+                            .attr("height", height);
+                var g = svg.append("g").attr("transform", "translate(" + (padding+20) + ", 0)");
+
+                var defs = svg.append("defs");
+                var linearGradient = defs.append("linearGradient").attr("id", "myGradient");
+                linearGradient.selectAll("stop")
+                    .data(data)
+                  .enter().append("stop")
+                    .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
+                    .attr("stop-color", d => d.color);
+
+                g.append("rect")
+                    .attr("width", innerWidth)
+                    .attr("height", barHeight)
+                    .style("fill", "url(#myGradient)");
+
+                g.append("g")
+                    .call(xAxis)
+                  .select(".domain").remove();
+    }
+    
+  
+    //Bind data and create one path per GeoJSON feature
+    function initMap(annee,variable){
+
+      for (var i = 0; i < dataset.length; i++) {
+        for (var j = 0; j < dataset[i].values.length; j++) {
+          if (json.features.find(d=>{return d.properties.name_long == dataset[i].categorie}) !== undefined) {
+            json.features.find(d=>{return d.properties.name_long == dataset[i].categorie})[dataset[i].values[j].Indicateur] = dataset[i].values[j]["valeur_"+annee];
+          }
+          
+        }
+        
+      }
+      for (var k = 0; k < 18; k++) {
+        index = modalites[k]; 
+        json.features.find(d=>{return d.properties.name == "Gambia"})[index] = dataset.find(e=>{return e.categorie == "Gambie"}).values[k]["valeur_"+annee];
+        
+      }
+
+      var max = d3.max(json.features, function(d){return d[variable]});
+      var min = d3.min(json.features, function(d){return d[variable]});
+
+      var color = d3.scale.linear().domain([min,max]).range(['white','green']);
+
+      svg.selectAll("path")
+       .data(json.features)
+       .enter()
+       .append("path")
+       .attr("class", "states")
+       .attr("d", path)
+       .style("fill", function(d) { return color(d[variable])})
+       .style("stroke", "black")
+       .style("stroke-width", 1)
+       .style("stroke-opacity", 1)
+       .on("mouseover", function(d) {
+            d3.select(this)
+            .style("fill", d3.rgb(color(d[variable])).darker(2))
+            .style("border", "4px solid white");
+            div.transition()        
+                .duration(200)      
+                .style("opacity", .9);      
+            div.html("<b>"+ d.properties.name_long + "</b><br>" + d[variable])  
+                .style("left", (d3.event.pageX) + "px")     
+                .style("top", (d3.event.pageY - 28) + "px")
+                .style("background", d3.rgb(color(d[variable])));
+        })
+        .on("mouseout", function(d) {
+            d3.select(this).style("fill", function(d) { return color(d[variable])});
+            div.transition()        
+            .duration(500)      
+            .style("opacity", 0);
+        });
+
+        legende(min,max);
+    }
+        // console.log(json);
+
+        var mapRefresh = function(annee,variable) {
+          var max = d3.max(json.features, function(d){return d[variable]});
+          var min = d3.min(json.features, function(d){return d[variable]});
+
+          var color = d3.scale.linear().domain([min,max]).range(['white','green']);
+          for (var i = 0; i < dataset.length; i++) {
+            for (var j = 0; j < dataset[i].values.length; j++) {
+              if (json.features.find(d=>{return d.properties.name_long == dataset[i].categorie}) !== undefined) {
+                json.features.find(d=>{return d.properties.name_long == dataset[i].categorie})[dataset[i].values[j].Indicateur] = dataset[i].values[j]["valeur_"+annee];
+              }
+              
+            }
+            
+          }
+          for (var k = 0; k < 18; k++) {
+            index = modalites[k]; 
+            json.features.find(d=>{return d.properties.name == "Gambia"})[index] = dataset.find(e=>{return e.categorie == "Gambie"}).values[k]["valeur_"+annee];
+            
+          }
+
+          var max = d3.max(json.features, function(d){return d[variable]});
+          var min = d3.min(json.features, function(d){return d[variable]});
+
+          var color = d3.scale.linear().domain([min,max]).range(['white','green']);
+
+          // update the data and redraw heatmap
+          var carte = d3.selectAll(".states")
+            .data(json.features);
+
+          carte.transition()
+            .duration(500)
+            .style("fill", function(d) { return color(d[variable]); });
+            
+
+            carte.on("mouseover", function(d) {
+                d3.select(this)
+                .style("fill", d3.rgb(color(d[variable])))
+                .style("border", "4px solid white");
+                div.transition()        
+                    .duration(200)      
+                    .style("opacity", .9);      
+                div.html("<b>"+ d.properties.name_long + "</b><br>" + d[variable])  
+                    .style("left", (d3.event.pageX) + "px")     
+                    .style("top", (d3.event.pageY - 28) + "px")
+                    .style("background", d3.rgb(color(d[variable])));
+            })
+            .on("mouseout", function(d) {
+                d3.select(this).style("fill", function(d) { return color(d[variable])});
+                div.transition()        
+                .duration(500)      
+                .style("opacity", 0);
+            })
+            d3.select("#legende").remove();
+            legende(min,max);
+        }
+
+        initMap(2005,"PIB");
+
+        d3.select("#mod_carte").on("change",function(){
+          var mod = d3.select("#mod_var").property("value");
+          var an = d3.select(this).property("value");
+          mapRefresh(an,mod);
+        });
+
+        d3.select("#mod_var").on("change",function(){
+          var mod = d3.select(this).property("value");
+          var an = d3.select("#mod_carte").property("value");
+          mapRefresh(an,mod);
+        });
+
+});
+</script>
+ <script type="text/javascript">
+  var data = data;
+</script>
+<script src="script/d3.v5.min.js"></script>
+ <script type="text/javascript" src="script/heatmap.js"></script>
+ <script type="text/javascript"></script>
 </body>
 
 <!-- Mirrored from www.w3schools.com/w3css/tryw3css_templates_analytics.htm by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 02 Feb 2019 04:43:41 GMT -->

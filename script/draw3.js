@@ -5,6 +5,7 @@ function draw(data,annee,element){
         width = 800 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
+    // var color = d3.scale.category20();
     var color = d3.scaleSequentialLog(d3.interpolateWarm);
 
     // append the svg object to the body of the page
@@ -42,10 +43,11 @@ function draw(data,annee,element){
             .call(d3.axisLeft(y));
 
           // Bars
-          svg.selectAll("mybar")
+          svg.selectAll(".mybar")
             .data(data)
             .enter()
             .append("rect")
+            .attr("class","barres")
               .attr("x", function(d) { return x(d.pays); })
               .attr("width", x.bandwidth())
           .style("fill", function(d) { return color(d.value
@@ -78,6 +80,14 @@ function draw(data,annee,element){
             .attr("y", function(d) { return y(d.value); })
             .attr("height", function(d) { return height - y(d.value); })
             .delay(function(d,i){ return(i*100)});
+
+  
+}
+
+function update(data,annee,element){
+
+  element.selectAll("svg").remove();
+  draw(data,annee,element);
 
   
 }

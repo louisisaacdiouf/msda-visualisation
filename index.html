@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
 <link rel="stylesheet" href="css/all.min.css">
 <link rel="stylesheet" href="css/bootstrap.min.css">
+<script src="script/jquery.min.js"></script>
 <script type="text/javascript" src="script/all.min.js"></script>
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
@@ -53,8 +54,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Close Menu</a>
     <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-database fa-fw"></i>&nbsp; Données brutes</a>
-    <a href="heatmap.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-map fa-fw"></i>&nbsp; Heatmap</a>
+    <a href="heatmap.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-map fa-fw"></i>&nbsp; Heatmap et carte</a>
     <a href="economie-par-pays.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-globe-africa fa-fw"></i>&nbsp; Economie par pays</a>
+    <a href="classement.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-chart-bar fa-fw"></i>&nbsp; Classement</a>
     <!-- <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>&nbsp; Geo</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>&nbsp; Orders</a>
     <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>&nbsp; News</a>
@@ -78,7 +80,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
 
   <div class="row">
     <div class="w3-half">
-        <h4><b><i class="fa fa-dashboard"></i>&nbsp;&nbsp;Cliquez sur un pays pour voir ses données économiques</b></h4>
+        <h4><b><i class="fa fa-globe-africa"></i>&nbsp;&nbsp;Cliquez sur un pays pour voir ses données économiques</b></h4>
       <div id="carte"></div>
     </div>
 
@@ -130,15 +132,15 @@ function w3_close() {
 }
 
 //Width and height
-var w = 500;
-var h = 450;
+var w = $("#carte").width();
+var h = w/1.25;
 
 var color = d3.scale.category20();
 
 //Define map projection
 var projection = d3.geo.mercator()
-                       .translate([260, 400])
-                       .scale([800]);
+                       .translate([w/2, h])
+                       .scale([w*1.5]);
 
 //Define path generator
 var path = d3.geo.path()

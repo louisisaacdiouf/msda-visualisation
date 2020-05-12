@@ -299,7 +299,7 @@ function w3_close() {
                   word = word.replace(/commerce international/g, "Com. Inter.");
                   chart_datas[i].titre = word;
                   chart_datas[i].modalite = donnees[i].Indicateur;
-                  chart_datas[i].valeur = donnees[i]["valeur_"+annee];
+                  chart_datas[i].valeur = parseFloat(donnees[i]["valeur_"+annee]);
                   chart_datas[i].pourcentage = (((donnees[i]["valeur_"+annee] - m)*100)/range);
                   
                   
@@ -353,7 +353,7 @@ function w3_close() {
                   chart_datas[y][i].pays = pays[y];
                   chart_datas[y][i].country = y+1;
                   chart_datas[y][i].variable = i+1;
-                  chart_datas[y][i].location = annee;
+                  chart_datas[y][i].annee = annee;
                   chart_datas[y][i].modalite = files[y][i].Indicateur;
                   chart_datas[y][i].valeur = parseFloat(files[y][i]["valeur_"+annee]);
                   chart_datas[y][i].pourcentage = (((parseFloat(files[y][i]["valeur_"+annee]) - m)*100)/range);
@@ -392,7 +392,7 @@ function w3_close() {
                     chart_datas[y][i].pays = pays[y];
                     chart_datas[y][i].country = y+1;
                     chart_datas[y][i].variable = i+1;
-                    chart_datas[y][i].location = annee;
+                    chart_datas[y][i].annee = annee;
                     chart_datas[y][i].modalite = modalites[i];
                     chart_datas[y][i].valeur = parseFloat(files[y][i]["valeur_"+annee]);
                     chart_datas[y][i].pourcentage = (((parseFloat(files[y][i]["valeur_"+annee]) - m)*100)/range);
@@ -414,7 +414,7 @@ function w3_close() {
                     chart_datas[y][i].pays = pays[y];
                     chart_datas[y][i].country = y+1;
                     chart_datas[y][i].variable = i+1;
-                    chart_datas[y][i].location = annee;
+                    chart_datas[y][i].annee = annee;
                     chart_datas[y][i].modalite = modalites[i];
                     chart_datas[y][i].valeur = 0;
                     chart_datas[y][i].pourcentage = 0;
@@ -506,10 +506,11 @@ var div = d3.select("#heatmap").append("div")
         d.valeur = +d.valeur;
     });
     dataset = data;
+    console.log(dataset);
 
     // group data by location
     var nest = d3.nest()
-      .key(function(d) { return d.location; })
+      .key(function(d) { return d.annee; })
       .entries(dataset);
 
     // array of locations in the data
@@ -558,12 +559,12 @@ var div = d3.select("#heatmap").append("div")
             div.transition()        
                 .duration(200)      
                 .style("opacity", .9);      
-            div.html("<b>"+ d.pays +"</b><br><b>"+ d.titre +"</b> : "+ d.valeur +"<br><b>Année</b> : "+ d.location)  
+            div.html("<b>"+ d.pays +"</b><br><b>"+ d.titre +"</b> : "+ d.valeur +"<br><b>Année</b> : "+ d.annee)  
                 .style("left", (d3.event.pageX*0.5) + "px")     
                 .style("top", (d3.event.pageY*0.5) + "px")
                 .style("background", d3.rgb(colours(d.pourcentage)));
 
-                var data = [{"color":"white","value":all_mines["min_"+d.modalite]},{"color":"green","value":all_maxes["max_"+d.modalite]}];
+                var data = [{"color":"white","value":parseFloat(all_mines["min_"+d.modalite])},{"color":"green","value":parseFloat(all_maxes["max_"+d.modalite])}];
                 var extent = [data[0].value,data[1].value];
                 
                 var padding = 20;
@@ -646,23 +647,23 @@ var div = d3.select("#heatmap").append("div")
       updateHeatmap(locations[currentLocationIndex]);
     });    
 
-    d3.selectAll(".nav").on("click", function() {
-      if(d3.select(this).classed("left")) {
-        if(currentLocationIndex == 0) {
-          currentLocationIndex = locations.length-1;
-        } else {
-          currentLocationIndex--;  
-        }
-      } else if(d3.select(this).classed("right")) {
-        if(currentLocationIndex == locations.length-1) {
-          currentLocationIndex = 0;
-        } else {
-          currentLocationIndex++;  
-        }
-      }
-      d3.select("#locationMenu").property("value", currentLocationIndex)
-      updateHeatmap(locations[currentLocationIndex]);
-    })
+    // d3.selectAll(".nav").on("click", function() {
+    //   if(d3.select(this).classed("left")) {
+    //     if(currentLocationIndex == 0) {
+    //       currentLocationIndex = locations.length-1;
+    //     } else {
+    //       currentLocationIndex--;  
+    //     }
+    //   } else if(d3.select(this).classed("right")) {
+    //     if(currentLocationIndex == locations.length-1) {
+    //       currentLocationIndex = 0;
+    //     } else {
+    //       currentLocationIndex++;  
+    //     }
+    //   }
+    //   d3.select("#locationMenu").property("value", currentLocationIndex)
+    //   updateHeatmap(locations[currentLocationIndex]);
+    // })
 
     
 // console.log();

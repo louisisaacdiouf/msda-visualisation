@@ -308,7 +308,7 @@ $(document).ready(function(){
           
 
 
-          var data_set = function(annee,donnees){
+          var data_set = function(annee){
             var chart_datas = [];
 
             var M = 0;
@@ -318,7 +318,7 @@ $(document).ready(function(){
 
             for (var y = 0; y < pays.length; y++) {
               // pays[y]
-              chart_datas[y] = Array.from({length:donnees.length}, _ => ({area:"",value:0}));
+              chart_datas[y] = Array.from({length:19}, _ => ({area:"",value:0}));
 
               for (var i = 0; i < files[y].length; i++) {
               
@@ -358,9 +358,9 @@ $(document).ready(function(){
 
 
 
-            var uniform_2005 = data_set(2005, files[0]);
-        var uniform_2010 = data_set(2010, files[0]);
-        var uniform_2019 = data_set(2019, files[0]);
+        var uniform_2005 = data_set(2005);
+        var uniform_2010 = data_set(2010);
+        var uniform_2019 = data_set(2019);
 
         function extraction_variable(variable,income){
           var dd = [];
@@ -383,16 +383,26 @@ $(document).ready(function(){
 
         function sorted_variables(income){
           var new_datas = [];
+          var points;
           for (var i = 0; i < files[0].length; i++) {
             new_datas[files[0][i].Indicateur] = extraction_variable(files[0][i].Indicateur,income);
             
             new_datas[files[0][i].Indicateur] = new_datas[files[0][i].Indicateur].sort(function(a,b){ return b.value - a.value; });
-            var points = 15;
+            
+            if (files[0][i].Indicateur !== "taux_chomage" && files[0][i].Indicateur !== "commerce_international_import") {
+              points = 15;
+            }else{
+              points = 0;
+            }
             for (var j = 0; j < new_datas[files[0][i].Indicateur].length; j++) {
               if (j>0 && new_datas[files[0][i].Indicateur][j].value < new_datas[files[0][i].Indicateur][j-1].value) {
-                points--;
+                if (files[0][i].Indicateur !== "taux_chomage" && files[0][i].Indicateur !== "commerce_international_import") {
+                  points--;
+                }else{
+                  points++;
+                }
               }
-              new_datas[files[0][i].Indicateur][j].points.push(points);
+              new_datas[files[0][i].Indicateur][j].points = points;
             }
           }
           return new_datas;
@@ -411,7 +421,7 @@ $(document).ready(function(){
             json_f[j].pays = pays[j];
             json_f[j].value = 0;
             for (var k = 0; k < files[j].length; k++) {
-              json_f[j].value += final_datas[annee][files[0][k].Indicateur].find(function(e){ return e.num_pays == j; }).points[0];
+              json_f[j].value += final_datas[annee][files[0][k].Indicateur].find(function(e){ return e.num_pays == j; }).points;
             }
           }
           return json_f;
@@ -421,8 +431,9 @@ $(document).ready(function(){
         json_final["2019"] = final_extraction(2019);
 
         
-        console.log(d3.max(json_final["2005"], function(e){ return e.value}));
-        console.log(json_final["2005"]);
+        // console.log(d3.max(json_final["2005"], function(e){ return e.value}));
+        // console.log(json_final["2005"]);
+        console.log(final_datas[2005]);
           
 
         ///////////////////////////////////////////////////////////////////

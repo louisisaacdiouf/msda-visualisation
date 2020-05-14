@@ -49,9 +49,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
 <!-- Load d3.js -->
 <script src="script/d3.v5.min.js"></script>
 <!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+<div class="w3-bar w3-top w3-white w3-large w3-card" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
-  <span class="w3-bar-item w3-right">MSDA</span>
+  <a href="index.html"><span class="w3-bar-item w3-right w3-blue w3-hover-black">Accueil <i class="fa fa-arrow-right"></i></span></a>
 </div>
 
 <!-- Sidebar/menu -->
@@ -354,7 +354,53 @@ $(document).ready(function(){
             return chart_datas;
           }
           
-            // console.log(Math.abs(-100));
+          
+
+
+          function legende(min,max){
+            var data = [{"color":"red","value":min},{"color":"limegreen","value":max}];
+                      var extent = [data[0].value,data[1].value];
+                      
+                      var padding = 20;
+                      var width = 400;
+                      var innerWidth = width - (padding * 4);
+                      var barHeight = 8;
+                      var height = 28;
+
+                      var xScale = d3.scaleLinear()
+                          .range([0, innerWidth])
+                          .domain(extent);
+
+                      var xTicks = [data[0].value,data[1].value];
+
+                      var xAxis = d3.axisBottom(xScale)
+                          .tickSize(barHeight * 2)
+                          .tickValues(xTicks);
+
+                      var svg = d3.select("#field")
+                                  .append("svg")
+                                  .attr("id", "legende")
+                                  .attr("width", width)
+                                  .attr("height", height);
+                      var g = svg.append("g").attr("transform", "translate(" + (padding+20) + ", 0)");
+
+                      var defs = svg.append("defs");
+                      var linearGradient = defs.append("linearGradient").attr("id", "myGradient");
+                      linearGradient.selectAll("stop")
+                          .data(data)
+                        .enter().append("stop")
+                          .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
+                          .attr("stop-color", d => d.color);
+
+                      g.append("rect")
+                          .attr("width", innerWidth)
+                          .attr("height", barHeight)
+                          .style("fill", "url(#myGradient)");
+
+                      g.append("g")
+                          .call(xAxis)
+                        .select(".domain").remove();
+          }
 
 
 
@@ -390,7 +436,7 @@ $(document).ready(function(){
             new_datas[files[0][i].Indicateur] = new_datas[files[0][i].Indicateur].sort(function(a,b){ return b.value - a.value; });
             
             if (files[0][i].Indicateur !== "taux_chomage" && files[0][i].Indicateur !== "commerce_international_import") {
-              points = 15;
+              points = 14;
             }else{
               points = 0;
             }
@@ -441,11 +487,13 @@ $(document).ready(function(){
         ///////////////////////////////////////////////////////////////////
         var element = d3.select("#field");
         draw(json_final["2005"],2005,element);
+        legende(100,200);
 
         d3.select("#annee").on("change",function(){
           var an = d3.select(this).property("value");
           update(json_final[an],an,element);
           console.log(json_final[an]);
+          legende(100,200);
         });
 
     });

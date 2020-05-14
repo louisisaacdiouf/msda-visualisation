@@ -28,15 +28,25 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
     .hidden {
       display: none;
     }
+    div.tooltip { 
+        position: absolute;     
+        text-align: center;     
+        width: auto;          
+        height: auto;         
+        padding: 2px;       
+        font: 12px sans-serif;
+        border-radius: 8px;     
+        pointer-events: none;     
+    }
 </style>
 <body class="w3-light-grey" style="overflow: auto;">
 <script type="text/javascript" src="script/d3-legend.min.js"></script>
 <!-- Load d3.js -->
 
 <!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+<div class="w3-bar w3-top w3-white w3-large w3-card" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
-  <span class="w3-bar-item w3-right">MSDA</span>
+  <a href="index.html"><span class="w3-bar-item w3-right w3-blue w3-hover-black">Accueil <i class="fa fa-arrow-right"></i></span></a>
 </div>
 
 <!-- Sidebar/menu -->
@@ -596,6 +606,10 @@ $(document).ready(function(){
             .attr("transform",
                   "translate(" + margin.left + "," + margin.top + ")");
 
+        var tooltip = d3.select("body").append("div") 
+                      .attr("class", "tooltip")       
+                      .style("opacity", 0);
+
         // Initialize the X axis
         var x = d3.scaleBand()
           .range([ 0, width ])
@@ -632,21 +646,44 @@ $(document).ready(function(){
           // console.log(data);
 
           // Create the u variable
-          var u = svg.selectAll("rect")
+          var u = svg.selectAll(".barres")
             .data(data)
 
           u
             .enter()
             .append("rect") // Add a new rect for each new elements
+            .attr("class", "barres")
             .merge(u) // get the already existing elements as well
             .transition() // and apply changes to all of them
             .duration(1000)
-              .attr("x", function(d) { return x(d.titre); })
-              .attr("y", function(d) { return y(d.pourcentage); })
-              .attr("width", x.bandwidth())
-              .attr("height", function(d) { return height - y(d.pourcentage); })
-              .attr("fill", function(d){return color(d.titre)})
-              .attr("content", function(d){return "<b>"+d.titre+"</b><br>"+d.valeur});
+            .attr("x", function(d) { return x(d.titre); })
+            .attr("y", function(d) { return y(d.pourcentage); })
+            .attr("width", x.bandwidth())
+            .attr("height", function(d) { return height - y(d.pourcentage); })
+            .attr("fill", function(d){return color(d.titre)})
+            .attr("content", function(d){return "<b>"+d.titre+"</b><br>"+d.valeur})
+            .on("end", function(d){
+              d3.select(this)
+                .on("mouseover", function(d) {
+                          d3.select(this).style("fill", d3.rgb(color(d.titre)).darker(2));
+                          tooltip.transition()    
+                                .duration(200)    
+                                .style("opacity", .9);    
+                             tooltip.html("<b>"+ d.titre + "</b><br/> Valeur : "  + d.valeur)  
+                                .style("left", (d3.event.pageX) + "px")
+                                .style("background", d3.rgb(color(d.titre)))
+                                .style("border", "1px solid black")
+                                .style("top", (d3.event.pageY - 28) + "px");
+                      })
+                      .on("mouseout", function(d) {
+                          d3.select(this).style("fill", color(d.titre));
+                          tooltip.transition()    
+                                .duration(500)    
+                                .style("opacity", 0);
+                      });
+            });
+
+          
 
             //Legend
             var legend = d3.legendColor()
@@ -670,6 +707,8 @@ $(document).ready(function(){
                 $("#caractere").append('<option value="'+i+'" class="caracteres">'+caractere[i]+'</option>');
               }
             }
+
+            
         }
 
 

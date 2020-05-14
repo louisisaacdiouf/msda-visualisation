@@ -6,7 +6,7 @@ function draw(data,annee,element){
         height = 500 - margin.top - margin.bottom;
 
     // var color = d3.scale.category20();
-    var color = d3.scaleSequentialLog(d3.interpolateWarm);
+    var color = d3.scaleSequentialLog(d3.interpolateSinebow);
 
     // append the svg object to the body of the page
     var svg = element
@@ -55,12 +55,12 @@ function draw(data,annee,element){
               // no bar at the beginning thus:
               .attr("height", function(d) { return height - y(0); }) // always equal to 0
               .attr("y", function(d) { return y(0); })
-              .on("mouseover", function(d) {
+              .on("mouseover", function(d,i) {
                     d3.select(this).style("fill", d3.rgb(color(d.value)).darker(2));
                     tooltip.transition()    
                           .duration(200)    
                           .style("opacity", .9);    
-                       tooltip.html("<b>"+ d.pays + "</b><br/> Points : "  + d.value)  
+                       tooltip.html("<b>"+ d.pays + "</b><br/><b>Rang : "+(i+1)+"</b><br/> Score : "  + d.value)  
                           .style("left", (d3.event.pageX) + "px")
                           .style("background", d3.rgb(color(d.value)))
                           .style("border", "1px solid black")

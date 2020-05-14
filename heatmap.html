@@ -54,9 +54,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
 <body class="w3-light-grey" style="overflow: auto;">
 
 <!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+<div class="w3-bar w3-top w3-white w3-large w3-card" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
-  <span class="w3-bar-item w3-right">MSDA</span>
+  <a href="index.html"><span class="w3-bar-item w3-right w3-blue w3-hover-black">Accueil <i class="fa fa-arrow-right"></i></span></a>
 </div>
 
 <!-- Sidebar/menu -->
@@ -110,6 +110,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
 
   <div class="row w3-responsive">
         <h4><b><i class="fa fa-globe-africa"></i>&nbsp;&nbsp;Heatmap sur carte</b></h4>
+        <h5><i class="fa fa-exclamation-triangle" style="color: red;"></i> La couleur noire au survol représente des données absentes.</h5><br>
         <div id="nav-container">
           <span><b>Année</b></span>&nbsp;&nbsp;
           <select id="mod_carte">

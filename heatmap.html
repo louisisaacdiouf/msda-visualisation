@@ -56,7 +56,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
 <!-- Top container -->
 <div class="w3-bar w3-top w3-white w3-large w3-card" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i> &nbsp;Menu</button>
-  <a href="index.html"><span class="w3-bar-item w3-right w3-blue w3-hover-black">Accueil <i class="fa fa-arrow-right"></i></span></a>
+  <a href="index.html"><span class="w3-bar-item w3-right w3-blue w3-hover-black w3-border w3-border-blue">Accueil <i class="fa fa-arrow-right"></i></span></a>
+  <a href="index.html#equipe"><span class="w3-bar-item w3-right w3-hover-black w3-border w3-border-blue">L'équipe</i></span></a>
+  <a href="rapport/ARTICLE.pdf" target="_blank"><span class="w3-bar-item w3-right w3-hover-black w3-border w3-border-blue">Rapport</i></span></a>
+  <a href="rapport/Cahier-d-avancement.pdf" target="_blank"><span class="w3-bar-item w3-right w3-hover-black w3-border w3-border-blue">Cahier d'avancement</i></span></a>
 </div>
 
 <!-- Sidebar/menu -->
@@ -71,7 +74,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
     <h4><b>ESPACE CEDEAO</b></h4>
   </div>
   <div class="w3-bar-block">
-    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>&nbsp; Close Menu</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-times fa-fw"></i>&nbsp; Close Menu</a>
     <a href="donnees-brutes.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-database fa-fw"></i>&nbsp; Données brutes</a>
     <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-map fa-fw"></i>&nbsp; Heatmap et carte</a>
     <a href="economie-par-pays.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-globe-africa fa-fw"></i>&nbsp; Economie par pays</a>
@@ -117,8 +120,8 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Rubik", sans-serif}
             <option value="2005" selected>2005</option>
             <option value="2010">2010</option>
             <option value="2019">2019</option>
-          </select>
-          <span><b>Année</b></span>&nbsp;&nbsp;
+          </select>&nbsp;&nbsp;&nbsp;
+          <span><b>Indicateur</b></span>&nbsp;&nbsp;
           <select id="mod_var"></select>
       </div><br>
       <div id="carte"></div>
@@ -176,11 +179,11 @@ d3.json("script/map.json", function(json) {
     var index;
 
     $(document).ready(function(){
-      for (var i = 0; i < modalites.length; i++) {
+      for (var i = 0; i <= modalites.length; i++) {
         if (i==0) {
-          $("#mod_var").append('<option value="'+modalites[i]+'" selected>'+modalites[i]+'</option>');
+          $("#mod_var").append('<option value="'+modalites[i]+'" disabled selected>Choisissez un Indicateur</option>');
         }else{
-          $("#mod_var").append('<option value="'+modalites[i]+'">'+modalites[i]+'</option>');
+          $("#mod_var").append('<option value="'+modalites[i-1]+'">'+modalites[i-1]+'</option>');
         }
       }
     });

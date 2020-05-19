@@ -1,79 +1,80 @@
-# Visualisation-donnees-CEDEAO-final-version
+**Indicateurs Economique des Pays de la CEDEAO**
 
-Ce projet est un travail pratique proposé par nos professeur pour nous permettre d'assimiler les bases de la visualisation et de l'étude des données. Cela a été pour nous une première expérience de collecte de données, de traitement et de représentation. Nous sommes en première année de Master en Sciences des Données et Applications et ce projet est loin d'être achevé ! Nous sommes donc ouverts à toute suggestion et contribution.
+Louis Isaac Samba Diouf, Etudiant en master science des données parcours Intelligence Artificielle à l&#39;Université de Thiès
 
-## Les outils utilisés
+Marie Marone M.L.M. Faye, Etudiante en master science des données parcours Audit et contrôle de gestion à l&#39;Université de Thiès
 
-Pour la réalisation de ce projet, nous avons utilisé les données du site https://data.un.org/ qui recense les chiffres sur l'économie des Etats du monde, en particulier, ceux des Etats membres de la CEDEAO sur lesquels porte notre étude. Nous avons également utilisé la bibliothèque https://d3js.org/ pour la représentation des données, un peu de bootstrap et de jQuery lors de nos test, les travaux de Alangrafu (https://github.com/alangrafu/radar-chart-d3) nous ont permis de d'avoir un diagramme radar satisfaisant, nous avons aussi trouvé des informations très utiles dans les forums https://stackoverflow.com/ et https://support.mozilla.org/fr/kb/obtenir-assistance-communaute qui sont des communautés où tout développeur peut facilement trouver la solution à un problème qu'il rencontre, car en programmation, il est très rare de rencontrer un problème qu'aucune autre personne n'a rencontré auparavant.
+Amy Diao, Etudiante en master science des données parcours Econométrie Statistique à l&#39;Université de Thiès
 
-Pour la réalisation de l'article, nous avons utilisé Sublime Text pour la réalisation du texte au format LaTeX.
+1. **Résumé**
 
-## Les données utilisées
+Notre projet porte sur les indicateurs économiques des pays de la CEDEAO. Il vise à faire voir la mesure et l&#39;impact de chaque indicateur dans l&#39;économie de chacun des pays de la communauté tout en analysant leur évolution sur ces trois années. Grace à une bonne visualisation, on peut redéfinir, réajuster et prévoir l&#39;effet des indicateurs sur les années à venir.
 
-Les données fournies par le site https://data.un.org/ sont très riches en informations. Elles nous ont permis d'avoir un aperçu de l'économie des Etats de la CEDEAO durant ces 15 dernières années.
+Après une visualisation des données brutes à travers une carte interactive des pays de la CEDEAO, nous avons représenté avec des cartes de chaleur toutes les indicateurs en fonction de tous les années sur des échelles relatives suivant un maximum et un minimum et ceux pour toutes les années. Pour une analyse du comportement de chaque pays face aux différents indicateurs nous avons utilisé des barchart et pour chaque indicateur une courbe montrant son évolution au cours des trois années dans chaque pays. Toutes ces analyses ont eu pour finalité un classement des pays de la CEDEAO suivants leurs indicateurs économiques.
 
-## Types de représentations choisies
+1. **Introduction**
 
-Etant donné que les données économiques n'ont pas les mêmes unités, il est très difficile d'en tirer des informations claires si on n'en fait qu'une seule représentation sur un diagramme en barre. Nous avons donc opté pour deux types de visualisation : une visualisation générale avec des diagrammes en barres groupés, et une visualisation comparative pour laquelle nous avons utilisé le diagramme radar ou `Spider Chart`.
+Dans un contexte de mondialisation accrue, l&#39;intégration économique demeure un puissant moyen de développement, particulièrement dans les pays à faible revenus comme ceux de la CEDEAO. Elle se présente comme le moyen d&#39;atteindre une croissance économique plus rapide, plus diversifiée et plus durable, et de réduire la dépendance vis-à-vis des sources extérieures.
 
-## Motifs de ces choix
+Cette croissance économique doit son dynamisme à un certain nombre de facteurs économiques appelés indicateurs économiques qui sont basés sur plusieurs secteurs. Bien que divers indicateurs économiques existent, nos données économiques des pays de la CEDEAO sont mesurées par dix-neuf indicateurs proposés par l&#39;organisation des nations unies. Grace à ces dix-neuf indicateurs nous pouvons connaitre la performance de chaque pays sur les différents secteurs économique de la communauté. Dans chaque pays nous pouvons connaitre le niveau d&#39;importance de chaque indicateur tout en suivant leur évolution sur des années successives. Un classement sur la base de ces indicateurs se fera de manière objective sachant que tout classement est arbitraire.
 
-Le diagramme en barre est un digramme classique qui permet de représenter plusieurs modalités et d'en aprécier les différences ou les ressemblances. Notons qu'elle permet aussi bien de comparer des caractères du même individu de la population aussi bien que des caractères d'individus différents.
-Nous avons ensuite choisi le diagramme radar pour une représentation comparative, car sachant que les variables de notre études n'ont pas les mêmes unités de mesure et qu'elles interviennent toutes dans l'économie, il faudrait représenter toutes les variables sur un même diagramme pour comprendre pourquoi un pays est plus développé qu'un autre.
+1. **Travaux connexes**
 
-## Avantages et inconvénients des diagrammes
+Dans le cadre de la réalisation de l&#39;union économique et monétaire au sein de la CEDEAO, les hautes autorités de la communauté ont adopté un ensemble de décisions en la matière, dont celle de 2001 portantes créations du mécanisme de la surveillance des politiques économiques et financières des Etats membres. Les dispositions de cette décision prévoient, entre autres l&#39;élaboration de rapports semestriels sur l&#39;état de convergence macroéconomique au sein de la communauté. C&#39;est dans ce cadre que s&#39;inscrivent les « Rapport de convergence macroéconomique des Etats membres de la communauté économique des Etats de l&#39;Afrique de l&#39;ouest ». A titre d&#39;exemple nous avons le rapport de convergence de 2010 qui révèle que la croissance économique dans la plupart des pays est en dessous du taux de 7% considéré comme seuil minimum au niveau de la région pour lutter efficacement contre la pauvreté
 
-Le diagramme en barres nous permet principalement une représentation globale de toutes les modalités, avec la possibilité de confronter des modalités de plusieurs pays à la fois, et de manière à bien distinguer les niveau de chacun. Par contre, à moins d'uniformiser les données, on a de très grandes irrégularités dans les représentations. Le Spider Chart quand à lui, même s'il ne permet pas la représentation d'une grande quantité d'informations sans perdre de la lisibilité, il a pour avantage principal de voir clairement, pour chaque variable, la différence de niveau entre deux individus.
+1. **Méthodologie**
 
-## Méthodes d'uniformisation
+Basée sur des données de UNDATA, sur les indicateurs économiques des pays de la CEDEAO, notre étude porte sur les données de dix-neuf variantes économiques sur trois différentes années présentées dans plusieurs tableaux. Avec une carte interactive des pays de la CEDEAO nous avons visualisé ces tableaux de données à l&#39;état brut. Vu la difficulté d&#39;effectuer à travers ces tableaux une comparaison soit entre les variables, soit entre les pays ou soit entre les années et désireux de données sens à ces chiffres a première vue, nous présentons une visualisation des données sous plusieurs angles.
 
-Pour une meilleure lisibilité des données, nous avons effectué une uniformisation des données, en faisant correspondreè à `100%` le maximum de chaque variable. Nous avons donc chaque variable exprimée en pourcentage, et nous pouvons ainsi facilement les comparer, car on réduit considérablement les disparités.
-Ensuite, étant donné que certaines variables peuvent être regroupées dans une même catégorie, nous avons procédé à un échantillonnage, en utilisant la moyenne des pourcentages comme estimateur. Nous avons procédé ainsi, de façon progressive, jusqu'à arriver à représenter toute l'économie par une seule variable. Pour cela, nous avons pris le `Nigéria` comme pays de référence. Notons que, comme tout estimateur, ces variables synthétiques seront parfois bien représentatives de séries, mais parfois ils arrivent qu'ils soient très loins de la réalité.
+Grace a des Heatmap, d&#39;abord représenté sur un tableau et matérialisé par une nuance de couleur allant du plus clair au plus foncé, nous pouvons voir l&#39;intensité de chaque indicateur sur tous les pays avec une légende qui varie en fonction des variables sur la base de leurs maximum et de leur minimum vu que toute les variables n&#39;ont pas les mêmes unités de mesure. Suivant le même procédé nous avons aussi effectué cette visualisation sur une carte de chaleur de la CEDEAO.
 
-## Méthodes d'intégration des données
+Après une vue comparative de tous les indicateurs sur tous les pays de la communauté et sur ces trois années à savoir 2005, 2010 et 2019, avec des diagrammes en barres nous avons représenté l&#39;économie de chaque pays. Pour chaque pays la valeur de chaque indicateur est représentée par bandes en pourcentage. Ce dernier est obtenu comme suit : en fixant le minimum des valeurs prises par l&#39;indicateur à 0% et le maximum à 100%, pour chaque minimum puis le tout sera multiplié par cent. Ainsi toutes les valeurs des indicateurs seront estimé dans le même intervalle ce qui facilite leur représentation. Ce processus étant appliqué sur trois années, nous avons utilisé des courbes d&#39;évolution pour analyser la progression de chaque indicateur en déterminant leur taux de croissance. Cette croissance peut être à caractère positive ou caractère négative en fonction de la portée de l&#39;indicateur.
 
-Pour ce projet, nous avons utilisé deux méthodes d'intégration des données, à savoir :
-* l'appel des données par la fonction d3.csv qui, nous permet d'appeler tous les fichiers CSV contenant les données en même temps, mais malgré beaucoup de recherches, nous n'avons pas trouvé de moyens d'utiliser ses données à l'extérieur de la fonction.
-* création des objects JavaScript qui contiennent tous les données des fichiers CSV pour un appels plus rapide et plus simples, notamment avec les diagrammes en barres. Pour cette méthode, nous avons utilisé le site https://www.convertcsv.com/csv-to-json.htm pour convertir nos fichier CSV en JSON que nous pouvons appeler de n'importe où.
+Pour effectuer un classement, un cumul de point attribuer à chaque modalité est fait. Pour l&#39;affectation des points, tout d&#39;abord nous avons triés les indicateurs en deux sous-ensembles : les indicateurs a caractère positif qui plus le taux de croissance est élevé plus ils contribuent à la croissance de l&#39;économie et les indicateurs à caractère négatif qui plus le taux de croissance est élevé moins ils participent à la croissance économique. Pour les indicateurs positive nous attribuons la note maximale de 14 pour la plus grande valeur puis nous continuons par une décrémentation et pour celle qui sont négatives nous attribuons une note minimale de 0 pour la plus grande valeur puis continuons l&#39;incrémentation de manière croissante Ainsi pour les indicateurs positifs plus la valeur prise par la modalité est élevé , plus le nombre de point augmente, et pour les indicateurs négatives plus la valeur prise par la modalité augmente plus le nombre de point diminue.
 
-## Etapes de réalisation
+1. **Discussion**
 
-1. Pour la représentation, nous avons d'abord fusionné l'ensemble des tableaux contenant les données de tous les pays
-2. Ensuite, nous avons cherché le maximum de chaque modalité pour procéder à l'uniformisation
-3. Après nous avons effectué une première catégorisation qui regroupe les variables en des secteurs d'activités
-4. Et pour terminer nous avons utilisé ces données pour faire la représentation.
+Dans l&#39;espace de la CEDEAO nous comptons 15 pays.
 
-Notons que la catégorisation permet en même temps d'éliminer les variables absentes chez certains pays, et donc de faire une étude avec un nombre uniforme de variables.
+![](RackMultipart20200519-4-dc973r_html_2f4f904be3b21524.png)
 
-## Position économique par cumul de points
+Avec cette carte en cliquant sur chaque zone on peut voir la valeur de la variable dans ce pays. Avec la nuance des couleurs, sans connaitre les valeurs on peut connaitre les pays où l&#39;indicateur est mieux représenté.
 
-Cela a été pour nous, une méthode d'une grande précision pour le classement. Pour l'effectuer, nous nous sommes basé sur le premier diagramme radar et son traitement de données, qui permet, pour chaque modalité, d'établir un classement des pays. Nous avons donc pour chacun, attribué des points en fonction du rang de chaque pays. Comme il y a 15 pays, le premier d'une modalité obtient 15 points, le suivant 1 point de moins, s'il y a eu une égalité à un niveau, les pays concernés obtiennent le même nombre de points, etc. Ainsi, au bout du traitement de toutes les modalités, chaque pays accumule des points qui nous permettent de faire un classement. Le pays qui est considéré comme plus développé que les autres est donc celui qui a eu le plus de fois une meilleure position dans les classements par modalité.
+![](RackMultipart20200519-4-dc973r_html_8c048ecd3b73466d.png)
 
-## Images
+Avec le heatmap sous forme de tableau on voit que dans tous les pays et pour toutes ces trois années le Nigéria est la première puissance en termes de PIB. Avec les indicateurs comme l&#39;indice de production agricole, l&#39;indice de production industrielle, l&#39;exportation en commerce international, l&#39;importation en commerce international, la balance en commerce international et la balance des payements, on note que les plus grandes valeurs de ces modalités reviennent à un certain nombre de pays bien déterminés sur les trois années à savoir le Nigéria, la Côte-d&#39;Ivoire, le Sénégal et le Ghana. On remarque aussi entre autre que la Sierra Léone est au sommet du pourcentage en emploi industrielle de 2005 à 2019. Les indicateurs prenant une valeur nulle sont dans les pays concernés.
 
-### Diagrammes en barres groupés
+![](RackMultipart20200519-4-dc973r_html_45052b171c4b8777.png)
 
-![Données brutes](https://github.com/louisisaacdiouf/Visualisation-donnees-CEDEAO-final-version/blob/master/captures/Capture1.PNG)
+Avec les diagrammes en barres comme la figure ci-dessus, nous avons une comparaison entre tous les indicateurs appliqués aux pays. Les indicateurs qui dominent différent d&#39;un pays à un autre. Chaque pays regarde où se situe ses forces et ses faiblesses afin de maintenir ou de redresser son économie. Notons qu&#39;un indicateur avec la plus grande taille ne renvoie pas impérativement à une force comme nous avons eu à l&#39;expliquer précédemment. Prenons l&#39;exemple du Sénégal.
 
-![Première catégorisation](https://github.com/louisisaacdiouf/Visualisation-donnees-CEDEAO-final-version/blob/master/captures/Capture2.PNG)
+En 2005 sa plus grande valeur était prise par l&#39;indicateur pourcentage de chômage qui est à caractère négatif car le chômage est un élément défavorisant pour le développement d&#39;un pays et empiété sur la richesse qui se créée dans le pays. Il en est de même pour la forte importation en commerce international qui se traduit par une certaine dépendance du pays vis-à-vis de l&#39;extérieur. On voit principalement sur les trois années l&#39;évolution de l&#39;activité agricole. Néanmoins les importations augmentent de manière exponentionnelle chaque année ce qui signifie que le pays n&#39;est pas autonome.
 
-![Deuxième catégorisation](https://github.com/louisisaacdiouf/Visualisation-donnees-CEDEAO-final-version/blob/master/captures/Capture3.PNG)
+Pour connaitre le niveau d&#39;importance de chaque indicateur dans un pays, l&#39;observation de leur évolution sur plusieurs années est indispensable
 
-![Niveau économique](https://github.com/louisisaacdiouf/Visualisation-donnees-CEDEAO-final-version/blob/master/captures/Capture4.PNG)
+![](RackMultipart20200519-4-dc973r_html_7d2e37a817078d36.png)
 
-### Diagrammes Radar
+La croissance peut être favorable ou défavorable à l&#39;économie du pays tout dépendra du caractère de la variable.
 
-![Comparaison générale](https://github.com/louisisaacdiouf/Visualisation-donnees-CEDEAO-final-version/blob/master/captures/Capture5.PNG)
+Pour les classements, nous avons pu visualiser avec une meilleure précision la position économique de chaque pays grâce à des cumuls de points
 
-![Comparaison des secteurs d'activités](https://github.com/louisisaacdiouf/Visualisation-donnees-CEDEAO-final-version/blob/master/captures/Capture6.PNG)
+![](RackMultipart20200519-4-dc973r_html_c8157a15c7eb633f.png)
 
-### Niveau économique par cumul de points du diagramme radar
+A l&#39;instar du Ghana qui est à la première place du classement en 2019, le pays le mieux classé a le meilleur cumul et a remporté les meilleurs classements dans la majorité de ses modalités. En remontant à la visualisation des économies par pays on dire que des progrès sur le secteur industriel et au niveau de ses exportations lui ont value sa première place.
 
-![Niveau économique par cumul de points](https://github.com/louisisaacdiouf/Visualisation-donnees-CEDEAO-final-version/blob/master/captures/Capture7.PNG)
+1. **Conclusion**
 
-## Conclusion
+Nous avons présenté une visualisation allant du général au particulier. Le principal objectif de la visualisation est de faire un classement des pays de la CEDEAO sur les années 2005, 2010 et 2019  tout en ayant une vue sur les progrès réalisé par les pays de la communauté de 2005 à 2019,
 
-Ce projet nous a permis de mener les recherches qui nous ont fait entrevoir les compétences requises pour les sciences des données. Nous avons trouvé qu'il y avait plusieurs manières de faires les représentations et plusieurs bibliothèques disponibles, ce qui nous montre que c'est un domaine florissant. Avec la méthode cumul de points, nous avons pu établir avec une grande précision la position économique de chaque pays dans l'espace CEDEAO.
+L&#39;analyse de l&#39;évolution des indicateurs s&#39;avère être un moyen important pour mettre en lumière les lacunes existantes. Rares sont les pays qui obtiennent une mauvaise performance dans toutes les dimensions retenues. Chaque pays peut échanger des enseignements et des aperçus avec d&#39;autres pays dans les domaines où il obtient lui-même une bonne performance, et repérer ainsi les lacunes à combler.
 
+C&#39;est un moyen dynamique et évolutif de suivre le processus d&#39;intégration, en permettant à tout un chacun d&#39;accéder à des informations vérifiées et qualitatives ouvrant la voie au dialogue et aidant à franchir les étapes ayant pour objectif d&#39;assurer l&#39;intégration de l&#39;Afrique.
 
-##### Un grand merci à tous nos professeurs pour la qualité de l'enseignement et nos camarades de classe pour l'entraide.
+1. **Références**
+
+- [www.ecowas.int](http://www.ecowas.int/)
+- [www.uneca.org](http://www.uneca.org/)
+- [www.tresor.economie.gouv.fr](http://www.tresor.economie.gouv.fr/)
+- [www.lefigaro.fr](http://www.lefigaro.fr/)
+- [www.jeuneafrique.com](http://www.jeuneafrique.com/)
+- [www.financialafrik.com](http://www.financialafrik.com/)
